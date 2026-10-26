@@ -20,7 +20,7 @@
     <main class="wrap">
         <section id="home">
             <div class="stats">
-                <div class="stat"><small>📦 初始物料总数</small><b id="sTotal">0</b></div>
+                <div class="stat"><small>📦 当前库存总数</small><b id="sTotal">0</b></div>
                 <div class="stat"><small>💌 已交换送出</small><b id="sDone">0</b></div>
                 <div class="stat"><small>⏳ 已约定待交换</small><b id="sPending">0</b></div>
                 <div class="stat"><small>🎀 可交换数量</small><b id="sAvailable">0</b></div>
@@ -33,6 +33,7 @@
                 <h2>快速开始</h2>
                 <div class="row"><button class="btn" onclick="go('stock');openStock()">＋ 新增物料</button><button
                         class="btn alt" onclick="go('trades');openTrade()">＋ 登记交换</button></div>
+                <div class="row" style="margin-top:9px"><button class="btn" onclick="openOrder()">＋ 开始销售订单</button></div>
             </div>
         </section>
         <section id="stock" class="hidden">
@@ -41,11 +42,16 @@
             </div><input class="search" id="stockSearch" placeholder="🔎 搜索物料名称" oninput="render()">
             <div id="stockList"></div>
             <div id="stockForm" class="panel hidden">
-                <h2 id="stockFormTitle">新增物料</h2><input type="hidden" id="stockId"><label>物料名称 *</label><input
-                    id="stockName" placeholder="例：GD 亚克力夹"><label>初始数量 *</label><input id="stockQty" type="number"
-                    min="0" step="1" placeholder="50"><label>物料照片（仅存在本机）</label><input id="stockPhoto" type="file"
-                    accept="image/*" onchange="loadPhoto(this)"><img id="preview" class="photoPreview"
-                    alt="照片预览"><label>备注</label><textarea id="stockNote" placeholder="尺寸、版本、成员等"></textarea>
+                <h2 id="stockFormTitle">新增物料</h2><input type="hidden" id="stockId">
+                <fieldset class="fieldGroup"><legend>必填信息</legend>
+                    <label>物料名称 *</label><input id="stockName" placeholder="例：GD 亚克力夹">
+                    <label>初始数量 *</label><input id="stockQty" type="number" min="0" step="1" placeholder="50">
+                </fieldset>
+                <fieldset class="fieldGroup optionalGroup"><legend>选填资料</legend>
+                    <label>物料照片（仅存在本机）</label><input id="stockPhoto" type="file" accept="image/*" onchange="loadPhoto(this)">
+                    <img id="preview" class="photoPreview" alt="照片预览">
+                    <label>备注</label><textarea id="stockNote" placeholder="尺寸、版本、成员等"></textarea>
+                </fieldset>
                 <div class="row" style="margin-top:14px"><button class="btn" onclick="saveStock()">保存物料</button><button
                         class="btn alt" onclick="closeStock()">取消</button></div><button class="btn danger hidden"
                     style="width:100%;margin-top:10px" id="deleteStock" onclick="deleteStock()">删除此物料</button>
@@ -57,31 +63,79 @@
             </div><input class="search" id="tradeSearch" placeholder="🔎 搜索对方账号 / 物料" oninput="render()">
             <div id="tradeList"></div>
             <div id="tradeForm" class="panel hidden">
-                <h2 id="tradeFormTitle">新增交换</h2><input type="hidden" id="tradeId"><label>交换对象 / 昵称 *</label><input
-                    id="tradePerson" placeholder="例：小花"><label>IG / 小红书账号</label><input id="tradeAccount"
-                    placeholder="@username"><label>IG 链接（选填）</label><input id="tradeIgLink" type="url" inputmode="url"
-                    placeholder="https://www.instagram.com/username/"><label>电话号码</label><input id="tradePhone" type="tel" inputmode="tel"
-                    placeholder="例：012-345 6789"><label>微信号</label><input id="tradeWechat"
-                    placeholder="输入微信号"><label>交换方式</label><select id="tradeMethod">
-                    <option value="邮寄">邮寄</option>
-                    <option value="场地互换">场地互换</option>
-                </select><label>我送出的物料 *</label>
-                <div id="giveRows"></div><button type="button" class="btn alt" onclick="addTradeRow('give')">＋
-                    添加送出物料</button>
-                <div class="summary">送出总数：<b id="giveTotal">0</b></div><label>对方给我的物料</label>
-                <div id="getRows"></div><button type="button" class="btn alt" onclick="addTradeRow('get')">＋
-                    添加收到物料</button>
-                <div class="summary">收到总数：<b id="getTotal">0</b></div><label class="checkrow"><input id="tradeChecked"
-                        type="checkbox" onchange="toggleTradeChecked()"> 已互换</label><label>其他状态</label><select
-                    id="tradeStatus" onchange="syncTradeChecked()">
-                    <option value="已约定">已约定</option>
-                    <option value="已完成">已完成</option>
-                    <option value="已取消">已取消</option>
-                </select><label>交换日期</label><input id="tradeDate" type="date"><label>备注 / 见面地点</label><textarea
-                    id="tradeNote" placeholder="例：演唱会入口 A"></textarea>
+                <h2 id="tradeFormTitle">新增交换</h2><input type="hidden" id="tradeId">
+                <fieldset class="fieldGroup"><legend>必填信息</legend>
+                    <label>交换对象 / 昵称 *</label><input id="tradePerson" placeholder="例：小花">
+                    <label>我送出的物料 *</label><div id="giveRows"></div>
+                    <button type="button" class="btn alt" onclick="addTradeRow('give')">＋ 添加送出物料</button>
+                    <div class="summary">送出总数：<b id="giveTotal">0</b></div>
+                </fieldset>
+                <fieldset class="fieldGroup optionalGroup"><legend>选填资料</legend>
+                    <label>IG / 小红书账号</label><input id="tradeAccount" placeholder="@username">
+                    <label>IG 链接（选填）</label><input id="tradeIgLink" type="url" inputmode="url" placeholder="https://www.instagram.com/username/">
+                    <label>电话号码</label><input id="tradePhone" type="tel" inputmode="tel" placeholder="例：012-345 6789">
+                    <label>微信号</label><input id="tradeWechat" placeholder="输入微信号">
+                    <label>交换方式</label><select id="tradeMethod"><option value="邮寄">邮寄</option><option value="场地互换">场地互换</option></select>
+                    <label>对方给我的物料</label><div id="getRows"></div>
+                    <button type="button" class="btn alt" onclick="addTradeRow('get')">＋ 添加收到物料</button>
+                    <div class="summary">收到总数：<b id="getTotal">0</b></div>
+                    <label class="checkrow"><input id="tradeChecked" type="checkbox" onchange="toggleTradeChecked()"> 已互换</label>
+                    <label>其他状态</label><select id="tradeStatus" onchange="syncTradeChecked()"><option value="已约定">已约定</option><option value="已完成">已完成</option><option value="已取消">已取消</option></select>
+                    <label>交换日期</label><input id="tradeDate" type="date">
+                    <label>备注 / 见面地点</label><textarea id="tradeNote" placeholder="例：演唱会入口 A"></textarea>
+                </fieldset>
                 <div class="row" style="margin-top:14px"><button class="btn" onclick="saveTrade()">保存记录</button><button
                         class="btn alt" onclick="closeTrade()">取消</button></div><button class="btn danger hidden"
                     style="width:100%;margin-top:10px" id="deleteTrade" onclick="deleteTrade()">删除此记录</button>
+            </div>
+        </section>
+        <section id="orders" class="hidden">
+            <div class="sectionTitle">
+                <h2>进货与销售 📦</h2>
+                <button class="btn" onclick="openOrder()">＋ 新增订单</button>
+            </div>
+            <p class="note">进货会增加库存；销售给客人后会自动扣减库存。</p>
+            <div id="orderCount" class="muted"></div>
+            <div id="orderList"></div>
+            <div id="orderForm" class="panel hidden">
+                <h2 id="orderFormTitle">新增补货订单</h2>
+                <input type="hidden" id="orderId">
+                <fieldset class="fieldGroup"><legend>订单类型</legend><label>订单类型 *</label><select id="orderType" onchange="syncOrderType()"><option value="sale">销售给客人</option><option value="restock">进货 / 入库</option></select></fieldset>
+                <div id="restockFields">
+                    <fieldset class="fieldGroup"><legend>必填信息</legend>
+                        <label>物料 *</label><select id="orderStock"></select>
+                        <label>入库数量 *</label><input id="orderQty" type="number" min="1" step="1" placeholder="例：20">
+                    </fieldset>
+                    <fieldset class="fieldGroup optionalGroup"><legend>选填资料</legend>
+                        <label>供应商 / 订单编号</label><input id="orderSupplier" placeholder="选填">
+                    </fieldset>
+                </div>
+                <div id="saleFields" class="hidden">
+                    <fieldset class="fieldGroup"><legend>必填信息</legend>
+                        <label>客人姓名 *</label><input id="orderParty" placeholder="输入客人姓名">
+                        <label>售卖物料 *</label><div id="saleItemRows"></div>
+                        <button type="button" class="btn alt" onclick="addSaleItem()">＋ 添加另一种物料</button>
+                        <div class="summary">订单总价：<b id="saleTotal">0.00</b></div>
+                        <label>售卖方式 *</label><select id="orderMethod" onchange="syncOrderMethod()"><option value="邮寄">邮寄</option><option value="场地互换">场地互换</option></select>
+                        <div id="orderAddressWrap"><label>邮寄地址 *</label><textarea id="orderAddress" placeholder="请填写收件地址"></textarea></div>
+                        <label>订单状态 *</label><select id="orderStatus"><option value="已下单">已下单</option><option value="已完成">已完成</option><option value="已取消">已取消</option></select>
+                    </fieldset>
+                    <fieldset class="fieldGroup optionalGroup"><legend>客户资料（选填）</legend>
+                        <label>IG / 小红书账号</label><input id="orderAccount" placeholder="@username">
+                        <label>IG 链接（选填）</label><input id="orderIgLink" type="url" inputmode="url" placeholder="https://www.instagram.com/username/">
+                        <label>电话号码</label><input id="orderPhone" type="tel" inputmode="tel" placeholder="例：012-345 6789">
+                        <label>微信号</label><input id="orderWechat" placeholder="输入微信号">
+                    </fieldset>
+                </div>
+                <fieldset class="fieldGroup optionalGroup"><legend>订单补充资料（选填）</legend>
+                    <label>日期</label><input id="orderDate" type="date">
+                    <label>备注</label><textarea id="orderNote" placeholder="选填"></textarea>
+                </fieldset>
+                <div class="row" style="margin-top:14px">
+                    <button class="btn" onclick="saveOrder()">保存并更新库存</button>
+                    <button class="btn alt" onclick="closeOrder()">取消</button>
+                </div>
+                <button class="btn danger hidden" style="width:100%;margin-top:10px" id="deleteOrder" onclick="deleteOrder()">删除此订单</button>
             </div>
         </section>
         <section id="query" class="hidden">
@@ -124,7 +178,7 @@
         <div class="tabs-inner"><button class="tab active" data-tab="home"
                 onclick="go('home')"><span>🏠</span>首页</button><button class="tab" data-tab="stock"
                 onclick="go('stock')"><span>🎀</span>物料</button><button class="tab" data-tab="trades"
-                onclick="go('trades')"><span>💌</span>交换</button><button class="tab" data-tab="query" onclick="go('query')"><span>🔎</span>查询</button><button class="tab" data-tab="report"
+                onclick="go('trades')"><span>💌</span>交换</button><button class="tab" data-tab="orders" onclick="go('orders')"><span>📥</span>订单</button><button class="tab" data-tab="query" onclick="go('query')"><span>🔎</span>查询</button><button class="tab" data-tab="report"
                 onclick="go('report')"><span>📊</span>统计</button></div>
     </nav>
     <script src="./js/data.js"></script>

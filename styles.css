@@ -1,7 +1,15 @@
 :root {
+            --chocolate: #684f48;
+            --mint: #d6e9ed;
+            --mist: #ccd6d6;
+            --butter: #f9e7c7;
+            --cream: #fffdf5;
+            --ink: #4f433e;
+            --muted: #82766f;
+            --line: #d8e2df;
             font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-            color: #35556e;
-            background: #f3f9ff
+            color: var(--chocolate);
+            background: var(--cream)
         }
 
         * {
@@ -11,7 +19,7 @@
         body {
             margin: 0;
             padding: env(safe-area-inset-top) 0 calc(85px + env(safe-area-inset-bottom));
-            background: linear-gradient(160deg, #e9f5ff, #fff9df);
+            background: linear-gradient(160deg, #f1f8f7, var(--butter));
             min-height: 100vh
         }
 
@@ -24,7 +32,7 @@
         .eyebrow {
             font-size: 11px;
             letter-spacing: 2px;
-            color: #4c91bd
+            color: #829c99
         }
 
         h1 {
@@ -39,7 +47,7 @@
 
         p {
             font-size: 13px;
-            color: #8499a7
+            color: var(--muted)
         }
 
         .wrap {
@@ -57,16 +65,16 @@
         .stat,
         .panel,
         .item {
-            background: #fff;
-            border: 1px solid #d7eaf6;
+            background: #fffefa;
+            border: 1px solid var(--line);
             border-radius: 19px;
             padding: 15px;
-            box-shadow: 0 4px 15px #a9c9dd18
+            box-shadow: 0 4px 15px #684f4812
         }
 
         .stat small {
             display: block;
-            color: #86a3b6;
+            color: #93847d;
             font-size: 12px
         }
 
@@ -74,7 +82,7 @@
             font-size: 27px;
             display: block;
             margin-top: 8px;
-            color: #438cbb
+            color: var(--chocolate)
         }
 
         .panel {
@@ -88,25 +96,30 @@
             justify-content: space-between
         }
 
+        button {
+            margin: 3px;
+            margin-bottom: 10px;
+        }
+
         .btn {
             border: 0;
             border-radius: 13px;
             padding: 11px 14px;
-            background: #69b1dd;
-            color: #fff;
+            background: var(--chocolate);
+            color: #fffefa;
             font-weight: 650;
             font-size: 14px;
             cursor: pointer
         }
 
         .btn.alt {
-            background: #fff1a8;
-            color: #705b20
+            background: #d6e9ed;
+            color: var(--chocolate)
         }
 
         .btn.danger {
-            background: #ffe6e8;
-            color: #b95368
+            background: var(--mist);
+            color: var(--chocolate)
         }
 
         .btn:active {
@@ -118,17 +131,17 @@
         select,
         textarea {
             width: 100%;
-            border: 1px solid #d3e6f2;
+            border: 1px solid var(--mist);
             border-radius: 12px;
             padding: 12px;
-            background: #fcfdff;
-            color: #4b6070;
+            background: #fffefa;
+            color: var(--ink);
             font-size: 16px
         }
         label {
             display: block;
             font-size: 13px;
-            color: #71899a;
+            color: #786b65;
             margin: 12px 0 6px
         }
 
@@ -150,7 +163,7 @@
             flex-shrink: 0;
             border-radius: 14px;
             object-fit: cover;
-            background: #eaf5fb;
+            background: var(--mint);
             display: grid;
             place-items: center;
             font-size: 26px
@@ -168,17 +181,17 @@
         }
 
         .muted {
-            color: #8197a6;
+            color: var(--muted);
             font-size: 12px;
             margin-top: 5px
         }
 
         .pill {
             font-size: 11px;
-            background: #fff6c9;
+            background: #f9e7c7;
             border-radius: 20px;
             padding: 5px 9px;
-            color: #8b7428;
+            color: var(--chocolate);
             white-space: nowrap
         }
 
@@ -189,8 +202,8 @@
             right: 0;
             display: flex;
             justify-content: center;
-            background: #fffefef5;
-            border-top: 1px solid #dcebf5;
+            background: #fffdf5f2;
+            border-top: 1px solid var(--mist);
             padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
             z-index: 3
         }
@@ -201,10 +214,11 @@
         }
 
         .tab {
-            width: 20%;
+            width: calc(16.6667% - 6px);
+            margin: 3px;
             border: 0;
             background: none;
-            color: #93adbd;
+            color: #877b75;
             font-size: 11px;
             padding: 4px 0
         }
@@ -216,7 +230,7 @@
         }
 
         .tab.active {
-            color: #3e83b1;
+            color: var(--chocolate);
             font-weight: 700
         }
 
@@ -227,7 +241,7 @@
         .empty {
             text-align: center;
             padding: 36px 12px;
-            color: #91a8b7
+            color: var(--muted)
         }
 
         .row {
@@ -252,7 +266,7 @@
         .summary {
             padding: 12px;
             border-radius: 12px;
-            background: #fff9df;
+            background: var(--butter);
             font-size: 13px;
             line-height: 1.8
         }
@@ -273,17 +287,17 @@
             border: 0;
             background: none;
             font-size: 18px;
-            color: #6399b9;
+            color: var(--chocolate);
             padding: 8px
         }
 
         .qty {
             font-size: 13px;
-            color: #718899
+            color: #786b65
         }
 
         .chip {
-            background: #e8f4ff;
+            background: var(--mint);
             border-radius: 10px;
             padding: 7px;
             font-size: 12px;
@@ -297,7 +311,7 @@
 
         hr {
             border: 0;
-            border-top: 1px solid #dfeef6;
+            border-top: 1px solid var(--mist);
             margin: 18px 0
         }
 
@@ -310,5 +324,67 @@
         .checkrow input {
             width: 20px;
             height: 20px;
-            accent-color: #4b9dcc
+            accent-color: var(--chocolate)
         }
+
+
+.fieldGroup {
+    min-width: 0;
+    margin: 14px 0;
+    padding: 12px 14px 15px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: #f8fbfa;
+}
+
+.fieldGroup legend {
+    padding: 0 7px;
+    color: var(--chocolate);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.optionalGroup {
+    background: #fffefa;
+}
+
+.optionalGroup legend {
+    color: var(--muted);
+}
+
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 2px solid #a8cfd1;
+    border-color: #a8cfd1;
+}
+
+
+.pill.status-complete {
+    background: #d6e9ed;
+    color: #39776f;
+}
+
+.pill.status-cancelled {
+    background: #f4d8d2;
+    color: #9b4137;
+}
+
+
+.item.field-complete {
+    background: #d6e9ed;
+    border-color: #b8d5d8;
+}
+
+.item.field-cancelled {
+    background: #f4d8d2;
+    border-color: #e6bdb5;
+}
+
+
+#deleteStock,
+#deleteTrade,
+#deleteOrder {
+    width: calc(100% - 6px) !important;
+}
