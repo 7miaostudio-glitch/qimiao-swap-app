@@ -1,2 +1,448 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#dceef9"><title>QIMIAO STUDIO FREEBIES EXCHANGE</title><style>:root{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;color:#35556e;background:#f3f9ff}*{box-sizing:border-box}body{margin:0;padding:env(safe-area-inset-top) 0 calc(85px + env(safe-area-inset-bottom));background:linear-gradient(160deg,#e9f5ff,#fff9df);min-height:100vh}header{padding:26px 20px 12px;max-width:760px;margin:auto}.eyebrow{font-size:11px;letter-spacing:2px;color:#4c91bd}h1{font-size:27px;margin:7px 0 4px}h2{font-size:19px;margin:4px 0 14px}p{font-size:13px;color:#8499a7}.wrap{max-width:760px;margin:auto;padding:0 16px}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat,.panel,.item{background:#fff;border:1px solid #d7eaf6;border-radius:19px;padding:15px;box-shadow:0 4px 15px #a9c9dd18}.stat small{display:block;color:#86a3b6;font-size:12px}.stat b{font-size:27px;display:block;margin-top:8px;color:#438cbb}.panel{margin-top:15px}.bar{display:flex;gap:8px;align-items:center;justify-content:space-between}.btn{border:0;border-radius:13px;padding:11px 14px;background:#69b1dd;color:#fff;font-weight:650;font-size:14px;cursor:pointer}.btn.alt{background:#fff1a8;color:#705b20}.btn.danger{background:#ffe6e8;color:#b95368}.btn:active{opacity:.7}.search,input,select,textarea{width:100%;border:1px solid #d3e6f2;border-radius:12px;padding:12px;background:#fcfdff;color:#4b6070;font-size:16px}label{display:block;font-size:13px;color:#71899a;margin:12px 0 6px}textarea{min-height:75px;resize:vertical}.item{display:flex;gap:12px;align-items:center;margin:10px 0}.thumb{width:58px;height:58px;flex-shrink:0;border-radius:14px;object-fit:cover;background:#eaf5fb;display:grid;place-items:center;font-size:26px}.item .main{flex:1;min-width:0}.item strong{display:block;font-size:15px;overflow-wrap:anywhere}.muted{color:#8197a6;font-size:12px;margin-top:5px}.pill{font-size:11px;background:#fff6c9;border-radius:20px;padding:5px 9px;color:#8b7428;white-space:nowrap}.tabs{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:center;background:#fffefef5;border-top:1px solid #dcebf5;padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:3}.tabs-inner{display:flex;width:min(100%,760px)}.tab{width:25%;border:0;background:none;color:#93adbd;font-size:11px;padding:4px 0}.tab span{display:block;font-size:21px;margin-bottom:3px}.tab.active{color:#3e83b1;font-weight:700}.hidden{display:none!important}.empty{text-align:center;padding:36px 12px;color:#91a8b7}.row{display:flex;gap:9px}.row>*{flex:1;min-width:0}.photoPreview{width:96px;height:96px;object-fit:cover;border-radius:16px;display:none;margin-top:9px}.summary{padding:12px;border-radius:12px;background:#fff9df;font-size:13px;line-height:1.8}.note{font-size:12px;line-height:1.6}.sectionTitle{display:flex;align-items:center;justify-content:space-between;margin:20px 0 9px}button.icon{border:0;background:none;font-size:18px;color:#6399b9;padding:8px}.qty{font-size:13px;color:#718899}.chip{background:#e8f4ff;border-radius:10px;padding:7px;font-size:12px;display:inline-block;margin-top:5px}input[type=file]{font-size:13px}hr{border:0;border-top:1px solid #dfeef6;margin:18px 0}.checkrow{display:flex;align-items:center;gap:9px}.checkrow input{width:20px;height:20px;accent-color:#4b9dcc}
-</style></head><body><header><div class="eyebrow">QIMIAO STUDIO</div><h1>QIMIAO STUDIO FREEBIES EXCHANGE</h1><p>每一次交换，都是一份小小的快乐 ✨</p></header><main class="wrap"><section id="home"><div class="stats"><div class="stat"><small>📦 初始物料总数</small><b id="sTotal">0</b></div><div class="stat"><small>💌 已交换送出</small><b id="sDone">0</b></div><div class="stat"><small>⏳ 已约定待交换</small><b id="sPending">0</b></div><div class="stat"><small>🎀 可交换数量</small><b id="sAvailable">0</b></div></div><div class="panel"><h2>今日小清单 ♡</h2><div id="homeList" class="empty">还没有交换记录，先添加物料吧 🌸</div></div><div class="panel"><h2>快速开始</h2><div class="row"><button class="btn" onclick="go('stock');openStock()">＋ 新增物料</button><button class="btn alt" onclick="go('trades');openTrade()">＋ 登记交换</button></div></div></section><section id="stock" class="hidden"><div class="sectionTitle"><h2>我的物料 📦</h2><button class="btn" onclick="openStock()">＋ 新增</button></div><input class="search" id="stockSearch" placeholder="🔎 搜索物料名称" oninput="render()"><div id="stockList"></div><div id="stockForm" class="panel hidden"><h2 id="stockFormTitle">新增物料</h2><input type="hidden" id="stockId"><label>物料名称 *</label><input id="stockName" placeholder="例：GD 亚克力夹"><label>初始数量 *</label><input id="stockQty" type="number" min="0" step="1" placeholder="50"><label>物料照片（仅存在本机）</label><input id="stockPhoto" type="file" accept="image/*" onchange="loadPhoto(this)"><img id="preview" class="photoPreview" alt="照片预览"><label>备注</label><textarea id="stockNote" placeholder="尺寸、版本、成员等"></textarea><div class="row" style="margin-top:14px"><button class="btn" onclick="saveStock()">保存物料</button><button class="btn alt" onclick="closeStock()">取消</button></div><button class="btn danger hidden" style="width:100%;margin-top:10px" id="deleteStock" onclick="deleteStock()">删除此物料</button></div></section><section id="trades" class="hidden"><div class="sectionTitle"><h2>交换记录 💌</h2><button class="btn" onclick="openTrade()">＋ 新增</button></div><input class="search" id="tradeSearch" placeholder="🔎 搜索对方账号 / 物料" oninput="render()"><div id="tradeList"></div><div id="tradeForm" class="panel hidden"><h2 id="tradeFormTitle">新增交换</h2><input type="hidden" id="tradeId"><label>交换对象 / 昵称 *</label><input id="tradePerson" placeholder="例：小花"><label>IG / 小红书账号</label><input id="tradeAccount" placeholder="@username"><label>电话号码</label><input id="tradePhone" type="tel" inputmode="tel" placeholder="例：012-345 6789"><label>微信号</label><input id="tradeWechat" placeholder="输入微信号"><label>交换方式</label><select id="tradeMethod"><option value="邮寄">邮寄</option><option value="场地互换">场地互换</option></select><label>我送出的物料 *</label><div id="giveRows"></div><button type="button" class="btn alt" onclick="addTradeRow('give')">＋ 添加送出物料</button><div class="summary">送出总数：<b id="giveTotal">0</b></div><label>对方给我的物料</label><div id="getRows"></div><button type="button" class="btn alt" onclick="addTradeRow('get')">＋ 添加收到物料</button><div class="summary">收到总数：<b id="getTotal">0</b></div><label class="checkrow"><input id="tradeChecked" type="checkbox" onchange="toggleTradeChecked()"> 已互换</label><label>其他状态</label><select id="tradeStatus" onchange="syncTradeChecked()"><option value="已约定">已约定</option><option value="已完成">已完成</option><option value="已取消">已取消</option></select><label>交换日期</label><input id="tradeDate" type="date"><label>备注 / 见面地点</label><textarea id="tradeNote" placeholder="例：演唱会入口 A"></textarea><div class="row" style="margin-top:14px"><button class="btn" onclick="saveTrade()">保存记录</button><button class="btn alt" onclick="closeTrade()">取消</button></div><button class="btn danger hidden" style="width:100%;margin-top:10px" id="deleteTrade" onclick="deleteTrade()">删除此记录</button></div></section><section id="report" class="hidden"><h2>自动统计 📊</h2><div id="reportList"></div><div class="panel"><h2>收到的物料</h2><div id="receivedList"></div></div><div class="panel"><h2>数据备份与恢复</h2><p class="note">本 App 将数据保存在当前浏览器的本地储存中，不上传服务器。清除网站数据、换浏览器或换手机可能会丢失记录。请定期导出备份。</p><div class="row"><button class="btn" onclick="exportJSON()">⬇ 备份 JSON</button><button class="btn alt" onclick="exportCSV()">⬇ 导出 CSV</button></div><label>恢复 JSON 备份（会替换当前所有记录）</label><input type="file" accept=".json,application/json" onchange="importJSON(this)"><hr><button class="btn danger" onclick="clearAll()">清空全部数据</button></div></section></main><nav class="tabs"><div class="tabs-inner"><button class="tab active" data-tab="home" onclick="go('home')"><span>🏠</span>首页</button><button class="tab" data-tab="stock" onclick="go('stock')"><span>🎀</span>物料</button><button class="tab" data-tab="trades" onclick="go('trades')"><span>💌</span>交换</button><button class="tab" data-tab="report" onclick="go('report')"><span>📊</span>统计</button></div></nav><script>const KEY='qimiao_swap_v1';let db={stocks:[],trades:[]},photoData='';try{const d=JSON.parse(localStorage.getItem(KEY));if(d&&Array.isArray(d.stocks)&&Array.isArray(d.trades))db=d}catch(e){}const $=id=>document.getElementById(id);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const num=x=>Math.max(0,Math.floor(Number(x)||0));const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);function waHref(phone){let n=String(phone||'').replace(/\D/g,'');if(n.startsWith('0'))n='60'+n.slice(1);return 'https://wa.me/'+n}function persist(){try{localStorage.setItem(KEY,JSON.stringify(db));render();return true}catch(e){alert('本地储存空间不足，请缩小照片并先导出备份。');return false}}function giveItems(t){return Array.isArray(t.giveItems)?t.giveItems:(t.stockId?[{stockId:t.stockId,qty:num(t.qty)}]:[])}function receiveItems(t){return Array.isArray(t.receiveItems)?t.receiveItems:(t.receive?[{name:t.receive,qty:num(t.receiveQty)}]:[])}function sums(id){let done=0,pending=0;for(const t of db.trades){const q=giveItems(t).filter(x=>x.stockId===id).reduce((a,x)=>a+num(x.qty),0);if(t.status==='已完成')done+=q;if(t.status==='已约定')pending+=q}return{done,pending}}function go(id){['home','stock','trades','report'].forEach(x=>$(x).classList.toggle('hidden',x!==id));document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));window.scrollTo(0,0);render()}function render(){let total=0,done=0,pending=0;db.stocks.forEach(s=>{const a=sums(s.id);total+=num(s.qty);done+=a.done;pending+=a.pending});$('sTotal').textContent=total;$('sDone').textContent=done;$('sPending').textContent=pending;$('sAvailable').textContent=total-done-pending;const upcoming=db.trades.filter(t=>t.status==='已约定');$('homeList').className=upcoming.length?'':'empty';$('homeList').innerHTML=upcoming.length?upcoming.slice(0,6).map(t=>`<div class="item"><div class="main"><strong>${esc(t.person)}</strong><div class="muted">${giveItems(t).map(x=>`${esc(db.stocks.find(s=>s.id===x.stockId)?.name||'已删除物料')} × ${num(x.qty)}`).join('、')}</div></div><span class="pill">待交换</span></div>`).join(''):'目前没有待交换记录 🌷';const sq=$('stockSearch').value.trim().toLowerCase();$('stockList').innerHTML=db.stocks.filter(s=>s.name.toLowerCase().includes(sq)).map(s=>{const a=sums(s.id);return `<div class="item"><div>${s.photo?`<img class="thumb" src="${s.photo}" alt="">`:'<div class="thumb">🎁</div>'}</div><div class="main"><strong>${esc(s.name)}</strong><div class="muted">初始 ${num(s.qty)} · 已交换 ${a.done} · 已约定 ${a.pending}</div><div class="chip">可交换 ${num(s.qty)-a.done-a.pending}</div></div><button class="icon" onclick="openStock('${s.id}')" aria-label="编辑">✎</button></div>`}).join('')||'<div class="empty">还没有物料，点击「新增」开始 🌸</div>';const tq=$('tradeSearch').value.trim().toLowerCase();$('tradeList').innerHTML=db.trades.filter(t=>(t.person+' '+t.account+' '+(t.phone||'')+' '+(t.method||'')+' '+(db.stocks.find(s=>s.id===t.stockId)?.name||'')).toLowerCase().includes(tq)).slice().reverse().map(t=>`<div class="item"><div class="main"><strong>${esc(t.person)} <span class="pill">${esc(t.status)}</span></strong><div class="muted">${esc(t.account||'未填写 IG')} · ${t.phone?`电话 <a href="${waHref(t.phone)}" target="_blank" rel="noopener">${esc(t.phone)}</a>`:'电话 未填写'} · 微信 ${esc(t.wechat||'未填写')} · ${esc(t.method||'邮寄')} · ${esc(t.date)}</div><div class="qty">送出：${giveItems(t).map(x=>`${esc(db.stocks.find(s=>s.id===x.stockId)?.name||'已删除物料')} × ${num(x.qty)}`).join('、')}</div><div class="muted">收到：${receiveItems(t).map(x=>`${esc(x.name)} × ${num(x.qty)}`).join('、')||'未填写'}</div></div><button class="icon" onclick="openTrade('${t.id}')" aria-label="编辑">✎</button></div>`).join('')||'<div class="empty">还没有交换记录 💌</div>';$('reportList').innerHTML=db.stocks.map(s=>{const a=sums(s.id);return `<div class="panel"><strong>${esc(s.name)}</strong><div class="summary" style="margin-top:9px">初始：${num(s.qty)}　｜　已交换：${a.done}<br>已约定：${a.pending}　｜　实际剩余：${num(s.qty)-a.done}<br><b>可交换：${num(s.qty)-a.done-a.pending}</b></div></div>`}).join('')||'<div class="empty">添加物料后自动生成库存报表</div>';let received={};db.trades.filter(t=>t.status==='已完成').forEach(t=>receiveItems(t).forEach(x=>{if(x.name)received[x.name]=(received[x.name]||0)+num(x.qty)}));$('receivedList').innerHTML=Object.entries(received).map(([name,q])=>`<div class="item"><div class="main"><strong>${esc(name)}</strong></div><span class="pill">${q} 份</span></div>`).join('')||'<p>尚无已完成的收取记录</p>'}function closeStock(){$('stockForm').classList.add('hidden')}function openStock(id=''){go('stock');const s=db.stocks.find(s=>s.id===id);$('stockForm').classList.remove('hidden');$('stockFormTitle').textContent=s?'编辑物料':'新增物料';$('stockId').value=id;$('stockName').value=s?.name||'';$('stockQty').value=s?.qty??'';$('stockNote').value=s?.note||'';$('stockPhoto').value='';photoData=s?.photo||'';$('preview').src=photoData;$('preview').style.display=photoData?'block':'none';$('deleteStock').classList.toggle('hidden',!s);$('stockForm').scrollIntoView({behavior:'smooth',block:'start'})}function loadPhoto(input){const f=input.files[0];if(!f)return;const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');const scale=Math.min(1,700/Math.max(img.width,img.height));c.width=Math.round(img.width*scale);c.height=Math.round(img.height*scale);c.getContext('2d').drawImage(img,0,0,c.width,c.height);photoData=c.toDataURL('image/jpeg',.7);$('preview').src=photoData;$('preview').style.display='block'};img.src=reader.result};reader.readAsDataURL(f)}function saveStock(){const id=$('stockId').value,name=$('stockName').value.trim(),qty=$('stockQty').value;if(!name||qty===''||!Number.isInteger(Number(qty))||Number(qty)<0)return alert('请填写名称和有效的初始数量');const obj={id:id||uid(),name,qty:num(qty),photo:photoData,note:$('stockNote').value};const idx=db.stocks.findIndex(s=>s.id===id);if(idx<0)db.stocks.push(obj);else db.stocks[idx]=obj;if(persist())closeStock()}function deleteStock(){const id=$('stockId').value;if(db.trades.some(t=>t.stockId===id))return alert('这款物料已有交换记录，请先删除关联交换记录');if(confirm('确定删除这款物料吗？')){db.stocks=db.stocks.filter(s=>s.id!==id);persist();closeStock()}}function closeTrade(){$('tradeForm').classList.add('hidden')}function openTrade(id=''){if(!db.stocks.length)return alert('请先新增至少一种物料');go('trades');const t=db.trades.find(t=>t.id===id);$('tradeForm').classList.remove('hidden');$('tradeFormTitle').textContent=t?'编辑交换':'新增交换';$('tradeId').value=id;$('tradePerson').value=t?.person||'';$('tradeAccount').value=t?.account||'';$('tradePhone').value=t?.phone||'';$('tradeWechat').value=t?.wechat||'';$('tradeMethod').value=t?.method||'邮寄';$('tradeStatus').value=t?.status||'已约定';$('tradeChecked').checked=(t?.status==='已完成');$('tradeDate').value=t?.date||new Date().toLocaleDateString('en-CA');$('tradeNote').value=t?.note||'';renderTradeRows('give',t?giveItems(t):[{stockId:db.stocks[0].id,qty:1}]);renderTradeRows('get',t?receiveItems(t):[]);$('deleteTrade').classList.toggle('hidden',!t);$('tradeForm').scrollIntoView({behavior:'smooth',block:'start'})}function renderTradeRows(type,items){const box=$(type==='give'?'giveRows':'getRows');box.innerHTML=(items.length?items:[type==='give'?{stockId:db.stocks[0]?.id,qty:1}:{name:'',qty:1}]).map((x,i)=>`<div class="row tradeRow" style="margin:8px 0">${type==='give'?`<select class="rowMaterial">${db.stocks.map(s=>`<option value="${esc(s.id)}" ${s.id===x.stockId?'selected':''}>${esc(s.name)}</option>`).join('')}</select>`:`<input class="rowMaterial" placeholder="物料名称" value="${esc(x.name||'')}">`}<input class="rowQty" type="number" min="1" step="1" value="${num(x.qty)||1}" oninput="updateTotals()"><button type="button" class="icon" onclick="this.parentElement.remove();updateTotals()">×</button></div>`).join('');updateTotals()}function addTradeRow(type){const box=$(type==='give'?'giveRows':'getRows'),row=type==='give'?{stockId:db.stocks[0]?.id,qty:1}:{name:'',qty:1};box.insertAdjacentHTML('beforeend',renderTradeRowHTML(type,row));updateTotals()}function renderTradeRowHTML(type,x){return `<div class="row tradeRow" style="margin:8px 0">${type==='give'?`<select class="rowMaterial">${db.stocks.map(s=>`<option value="${esc(s.id)}" ${s.id===x.stockId?'selected':''}>${esc(s.name)}</option>`).join('')}</select>`:`<input class="rowMaterial" placeholder="物料名称" value="${esc(x.name||'')}">`}<input class="rowQty" type="number" min="1" step="1" value="${num(x.qty)||1}" oninput="updateTotals()"><button type="button" class="icon" onclick="this.parentElement.remove();updateTotals()">×</button></div>`}function updateTotals(){for(const [type,id] of [['give','giveTotal'],['get','getTotal']]){const box=$(type==='give'?'giveRows':'getRows');$(id).textContent=[...box.querySelectorAll('.rowQty')].reduce((a,x)=>a+(Number(x.value)||0),0)}}function readTradeRows(type){const box=$(type==='give'?'giveRows':'getRows');return [...box.querySelectorAll('.tradeRow')].map(r=>({value:r.querySelector('.rowMaterial').value.trim(),qty:Number(r.querySelector('.rowQty').value)})).filter(x=>x.value&&Number.isInteger(x.qty)&&x.qty>0).map(x=>type==='give'?{stockId:x.value,qty:x.qty}:{name:x.value,qty:x.qty})}function toggleTradeChecked(){$('tradeStatus').value=$('tradeChecked').checked?'已完成':'已约定'}function syncTradeChecked(){$('tradeChecked').checked=$('tradeStatus').value==='已完成'}function saveTrade(){const id=$('tradeId').value,person=$('tradePerson').value.trim(),give=readTradeRows('give'),receive=readTradeRows('get');if(!person||!give.length)return alert('请填写交换对象，并至少添加一项送出物料');const obj={id:id||uid(),person,account:$('tradeAccount').value.trim(),phone:$('tradePhone').value.trim(),wechat:$('tradeWechat').value.trim(),method:$('tradeMethod').value,giveItems:give,receiveItems:receive,status:$('tradeStatus').value,date:$('tradeDate').value,note:$('tradeNote').value};const original=db.trades.find(t=>t.id===id),idx=db.trades.findIndex(t=>t.id===id);if(idx<0)db.trades.push(obj);else db.trades[idx]=obj;const over=give.some(x=>{const stock=db.stocks.find(s=>s.id===x.stockId),a=sums(x.stockId);return stock&&a.done+a.pending>num(stock.qty)});if(over&&!confirm('这会让「可交换数量」变成负数，仍然保存吗？')){if(idx<0)db.trades.pop();else db.trades[idx]=original;return}if(persist())closeTrade()}function deleteTrade(){if(confirm('确定删除这笔交换记录吗？')){db.trades=db.trades.filter(t=>t.id!==$('tradeId').value);persist();closeTrade()}}function download(name,content,type){const url=URL.createObjectURL(new Blob([content],{type}));const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000)}function exportJSON(){download('物料互换备份_'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify(db,null,2),'application/json')}function csvRow(a){return a.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')}function exportCSV(){const rows=[['类型','名称/交换对象','IG','电话号码','微信号','交换方式','物料','初始数量','送出数量','收到物料','收到数量','状态','日期','备注']];db.stocks.forEach(s=>rows.push(['库存',s.name,'','','','','',s.qty,'','','','','',s.note]));db.trades.forEach(t=>rows.push(['交换',t.person,t.account,t.phone||'',t.wechat||'',t.method||'邮寄',giveItems(t).map(x=>`${db.stocks.find(s=>s.id===x.stockId)?.name||'已删除物料'} × ${x.qty}`).join('、'),giveItems(t).reduce((a,x)=>a+num(x.qty),0),receiveItems(t).map(x=>`${x.name} × ${x.qty}`).join('、'),receiveItems(t).reduce((a,x)=>a+num(x.qty),0),t.status,t.date,t.note]));download('物料互换记录.csv','\ufeff'+rows.map(csvRow).join('\r\n'),'text/csv;charset=utf-8')}function importJSON(input){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.stocks)||!Array.isArray(d.trades))throw Error('bad');if(!confirm('恢复备份将覆盖当前全部数据，确定继续？'))return;db=d;persist();alert('恢复成功')}catch(e){alert('备份文件格式不正确')}finally{input.value=''}};r.readAsText(f)}function clearAll(){if(confirm('确定清空所有物料与交换记录吗？此操作无法撤销。')&&confirm('请确认已经备份，真的要清空吗？')){db={stocks:[],trades:[]};persist()}}render();</script></body></html>
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="#dceef9">
+    <title>QIMIAO STUDIO FREEBIES EXCHANGE</title>
+    <style>
+        :root {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+            color: #35556e;
+            background: #f3f9ff
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            padding: env(safe-area-inset-top) 0 calc(85px + env(safe-area-inset-bottom));
+            background: linear-gradient(160deg, #e9f5ff, #fff9df);
+            min-height: 100vh
+        }
+
+        header {
+            padding: 26px 20px 12px;
+            max-width: 760px;
+            margin: auto
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #4c91bd
+        }
+
+        h1 {
+            font-size: 27px;
+            margin: 7px 0 4px
+        }
+
+        h2 {
+            font-size: 19px;
+            margin: 4px 0 14px
+        }
+
+        p {
+            font-size: 13px;
+            color: #8499a7
+        }
+
+        .wrap {
+            max-width: 760px;
+            margin: auto;
+            padding: 0 16px
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px
+        }
+
+        .stat,
+        .panel,
+        .item {
+            background: #fff;
+            border: 1px solid #d7eaf6;
+            border-radius: 19px;
+            padding: 15px;
+            box-shadow: 0 4px 15px #a9c9dd18
+        }
+
+        .stat small {
+            display: block;
+            color: #86a3b6;
+            font-size: 12px
+        }
+
+        .stat b {
+            font-size: 27px;
+            display: block;
+            margin-top: 8px;
+            color: #438cbb
+        }
+
+        .panel {
+            margin-top: 15px
+        }
+
+        .bar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 13px;
+            padding: 11px 14px;
+            background: #69b1dd;
+            color: #fff;
+            font-weight: 650;
+            font-size: 14px;
+            cursor: pointer
+        }
+
+        .btn.alt {
+            background: #fff1a8;
+            color: #705b20
+        }
+
+        .btn.danger {
+            background: #ffe6e8;
+            color: #b95368
+        }
+
+        .btn:active {
+            opacity: .7
+        }
+
+        .search,
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid #d3e6f2;
+            border-radius: 12px;
+            padding: 12px;
+            background: #fcfdff;
+            color: #4b6070;
+            font-size: 16px
+        }
+        label {
+            display: block;
+            font-size: 13px;
+            color: #71899a;
+            margin: 12px 0 6px
+        }
+
+        textarea {
+            min-height: 75px;
+            resize: vertical
+        }
+
+        .item {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin: 10px 0
+        }
+
+        .thumb {
+            width: 58px;
+            height: 58px;
+            flex-shrink: 0;
+            border-radius: 14px;
+            object-fit: cover;
+            background: #eaf5fb;
+            display: grid;
+            place-items: center;
+            font-size: 26px
+        }
+
+        .item .main {
+            flex: 1;
+            min-width: 0
+        }
+
+        .item strong {
+            display: block;
+            font-size: 15px;
+            overflow-wrap: anywhere
+        }
+
+        .muted {
+            color: #8197a6;
+            font-size: 12px;
+            margin-top: 5px
+        }
+
+        .pill {
+            font-size: 11px;
+            background: #fff6c9;
+            border-radius: 20px;
+            padding: 5px 9px;
+            color: #8b7428;
+            white-space: nowrap
+        }
+
+        .tabs {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            background: #fffefef5;
+            border-top: 1px solid #dcebf5;
+            padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+            z-index: 3
+        }
+
+        .tabs-inner {
+            display: flex;
+            width: min(100%, 760px)
+        }
+
+        .tab {
+            width: 20%;
+            border: 0;
+            background: none;
+            color: #93adbd;
+            font-size: 11px;
+            padding: 4px 0
+        }
+
+        .tab span {
+            display: block;
+            font-size: 21px;
+            margin-bottom: 3px
+        }
+
+        .tab.active {
+            color: #3e83b1;
+            font-weight: 700
+        }
+
+        .hidden {
+            display: none !important
+        }
+
+        .empty {
+            text-align: center;
+            padding: 36px 12px;
+            color: #91a8b7
+        }
+
+        .row {
+            display: flex;
+            gap: 9px
+        }
+
+        .row>* {
+            flex: 1;
+            min-width: 0
+        }
+
+        .photoPreview {
+            width: 96px;
+            height: 96px;
+            object-fit: cover;
+            border-radius: 16px;
+            display: none;
+            margin-top: 9px
+        }
+
+        .summary {
+            padding: 12px;
+            border-radius: 12px;
+            background: #fff9df;
+            font-size: 13px;
+            line-height: 1.8
+        }
+
+        .note {
+            font-size: 12px;
+            line-height: 1.6
+        }
+
+        .sectionTitle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0 9px
+        }
+
+        button.icon {
+            border: 0;
+            background: none;
+            font-size: 18px;
+            color: #6399b9;
+            padding: 8px
+        }
+
+        .qty {
+            font-size: 13px;
+            color: #718899
+        }
+
+        .chip {
+            background: #e8f4ff;
+            border-radius: 10px;
+            padding: 7px;
+            font-size: 12px;
+            display: inline-block;
+            margin-top: 5px
+        }
+
+        input[type=file] {
+            font-size: 13px
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #dfeef6;
+            margin: 18px 0
+        }
+
+        .checkrow {
+            display: flex;
+            align-items: center;
+            gap: 9px
+        }
+
+        .checkrow input {
+            width: 20px;
+            height: 20px;
+            accent-color: #4b9dcc
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="eyebrow">QIMIAO STUDIO</div>
+        <h1>QIMIAO STUDIO 物料交换</h1>
+        <p>每一次交换，都是一份小小的快乐 ✨</p>
+        <p id="syncStatus" role="status">正在连接 Firebase…</p>
+    </header>
+    <main class="wrap">
+        <section id="home">
+            <div class="stats">
+                <div class="stat"><small>📦 初始物料总数</small><b id="sTotal">0</b></div>
+                <div class="stat"><small>💌 已交换送出</small><b id="sDone">0</b></div>
+                <div class="stat"><small>⏳ 已约定待交换</small><b id="sPending">0</b></div>
+                <div class="stat"><small>🎀 可交换数量</small><b id="sAvailable">0</b></div>
+            </div>
+            <div class="panel">
+                <h2>今日小清单 ♡</h2>
+                <div id="homeList" class="empty">还没有交换记录，先添加物料吧 🌸</div>
+            </div>
+            <div class="panel">
+                <h2>快速开始</h2>
+                <div class="row"><button class="btn" onclick="go('stock');openStock()">＋ 新增物料</button><button
+                        class="btn alt" onclick="go('trades');openTrade()">＋ 登记交换</button></div>
+            </div>
+        </section>
+        <section id="stock" class="hidden">
+            <div class="sectionTitle">
+                <h2>我的物料 📦</h2><button class="btn" onclick="openStock()">＋ 新增</button>
+            </div><input class="search" id="stockSearch" placeholder="🔎 搜索物料名称" oninput="render()">
+            <div id="stockList"></div>
+            <div id="stockForm" class="panel hidden">
+                <h2 id="stockFormTitle">新增物料</h2><input type="hidden" id="stockId"><label>物料名称 *</label><input
+                    id="stockName" placeholder="例：GD 亚克力夹"><label>初始数量 *</label><input id="stockQty" type="number"
+                    min="0" step="1" placeholder="50"><label>物料照片（仅存在本机）</label><input id="stockPhoto" type="file"
+                    accept="image/*" onchange="loadPhoto(this)"><img id="preview" class="photoPreview"
+                    alt="照片预览"><label>备注</label><textarea id="stockNote" placeholder="尺寸、版本、成员等"></textarea>
+                <div class="row" style="margin-top:14px"><button class="btn" onclick="saveStock()">保存物料</button><button
+                        class="btn alt" onclick="closeStock()">取消</button></div><button class="btn danger hidden"
+                    style="width:100%;margin-top:10px" id="deleteStock" onclick="deleteStock()">删除此物料</button>
+            </div>
+        </section>
+        <section id="trades" class="hidden">
+            <div class="sectionTitle">
+                <h2>交换记录 💌</h2><button class="btn" onclick="openTrade()">＋ 新增</button>
+            </div><input class="search" id="tradeSearch" placeholder="🔎 搜索对方账号 / 物料" oninput="render()">
+            <div id="tradeList"></div>
+            <div id="tradeForm" class="panel hidden">
+                <h2 id="tradeFormTitle">新增交换</h2><input type="hidden" id="tradeId"><label>交换对象 / 昵称 *</label><input
+                    id="tradePerson" placeholder="例：小花"><label>IG / 小红书账号</label><input id="tradeAccount"
+                    placeholder="@username"><label>IG 链接（选填）</label><input id="tradeIgLink" type="url" inputmode="url"
+                    placeholder="https://www.instagram.com/username/"><label>电话号码</label><input id="tradePhone" type="tel" inputmode="tel"
+                    placeholder="例：012-345 6789"><label>微信号</label><input id="tradeWechat"
+                    placeholder="输入微信号"><label>交换方式</label><select id="tradeMethod">
+                    <option value="邮寄">邮寄</option>
+                    <option value="场地互换">场地互换</option>
+                </select><label>我送出的物料 *</label>
+                <div id="giveRows"></div><button type="button" class="btn alt" onclick="addTradeRow('give')">＋
+                    添加送出物料</button>
+                <div class="summary">送出总数：<b id="giveTotal">0</b></div><label>对方给我的物料</label>
+                <div id="getRows"></div><button type="button" class="btn alt" onclick="addTradeRow('get')">＋
+                    添加收到物料</button>
+                <div class="summary">收到总数：<b id="getTotal">0</b></div><label class="checkrow"><input id="tradeChecked"
+                        type="checkbox" onchange="toggleTradeChecked()"> 已互换</label><label>其他状态</label><select
+                    id="tradeStatus" onchange="syncTradeChecked()">
+                    <option value="已约定">已约定</option>
+                    <option value="已完成">已完成</option>
+                    <option value="已取消">已取消</option>
+                </select><label>交换日期</label><input id="tradeDate" type="date"><label>备注 / 见面地点</label><textarea
+                    id="tradeNote" placeholder="例：演唱会入口 A"></textarea>
+                <div class="row" style="margin-top:14px"><button class="btn" onclick="saveTrade()">保存记录</button><button
+                        class="btn alt" onclick="closeTrade()">取消</button></div><button class="btn danger hidden"
+                    style="width:100%;margin-top:10px" id="deleteTrade" onclick="deleteTrade()">删除此记录</button>
+            </div>
+        </section>
+        <section id="query" class="hidden">
+            <div class="sectionTitle"><h2>交换查询 🔎</h2></div>
+            <div class="panel">
+                <label>交换状态</label>
+                <select id="queryStatus" onchange="renderQuery()">
+                    <option value="">全部状态</option>
+                    <option value="已约定">已约定</option>
+                    <option value="已完成">已完成</option>
+                    <option value="已取消">已取消</option>
+                </select>
+                <div class="row">
+                    <div><label>开始日期</label><input id="queryDateFrom" type="date" onchange="renderQuery()"></div>
+                    <div><label>结束日期</label><input id="queryDateTo" type="date" onchange="renderQuery()"></div>
+                </div>
+                <button class="btn alt" style="margin-top:12px" onclick="clearQueryFilters()">清除筛选</button>
+            </div>
+            <div id="queryCount" class="muted"></div>
+            <div id="queryTradeList"></div>
+        </section>
+        <section id="report" class="hidden">
+            <h2>自动统计 📊</h2>
+            <div id="reportList"></div>
+            <div class="panel">
+                <h2>收到的物料</h2>
+                <div id="receivedList"></div>
+            </div>
+            <div class="panel">
+                <h2>数据备份与恢复</h2>
+                <p class="note">数据会同步到 Firebase；本机也保留一份缓存。首次使用请配置 Firebase Web app、启用匿名身份验证并创建 Firestore。照片随记录保存在 Firestore 文档中。</p>
+                <div class="row"><button class="btn" onclick="exportJSON()">⬇ 备份 JSON</button><button class="btn alt"
+                        onclick="exportCSV()">⬇ 导出 CSV</button></div><label>恢复 JSON 备份（会替换当前所有记录）</label><input
+                    type="file" accept=".json,application/json" onchange="importJSON(this)">
+                <hr><button class="btn danger" onclick="clearAll()">清空全部数据</button>
+            </div>
+        </section>
+    </main>
+    <nav class="tabs">
+        <div class="tabs-inner"><button class="tab active" data-tab="home"
+                onclick="go('home')"><span>🏠</span>首页</button><button class="tab" data-tab="stock"
+                onclick="go('stock')"><span>🎀</span>物料</button><button class="tab" data-tab="trades"
+                onclick="go('trades')"><span>💌</span>交换</button><button class="tab" data-tab="query" onclick="go('query')"><span>🔎</span>查询</button><button class="tab" data-tab="report"
+                onclick="go('report')"><span>📊</span>统计</button></div>
+    </nav>
+    <script>const KEY = 'qimiao_swap_v1'; let db = { stocks: [], trades: [] }, photoData = ''; try { const d = JSON.parse(localStorage.getItem(KEY)); if (d && Array.isArray(d.stocks) && Array.isArray(d.trades)) db = d } catch (e) { } window.getAppDb = () => db; window.setAppDb = value => { db = value }; const $ = id => document.getElementById(id); const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); const num = x => Math.max(0, Math.floor(Number(x) || 0)); const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8); function waHref(phone) { let n = String(phone || '').replace(/\D/g, ''); if (n.startsWith('0')) n = '60' + n.slice(1); return 'https://wa.me/' + n } function safeWebHref(value) { try { const url = new URL(/^https?:\/\//i.test(String(value || '')) ? String(value) : 'https://' + String(value || '')); return ['http:', 'https:'].includes(url.protocol) ? url.href : '' } catch (e) { return '' } } function persist() { try { localStorage.setItem(KEY, JSON.stringify(db)); render(); if (window.firebaseStore) window.firebaseStore.save(db).catch(e => { console.error(e); $('syncStatus').textContent = 'Firebase 同步失败；数据仍保存在本机缓存。' }); return true } catch (e) { alert('本地储存空间不足，请缩小照片并先导出备份。'); return false } } function giveItems(t) { return Array.isArray(t.giveItems) ? t.giveItems : (t.stockId ? [{ stockId: t.stockId, qty: num(t.qty) }] : []) } function receiveItems(t) { return Array.isArray(t.receiveItems) ? t.receiveItems : (t.receive ? [{ name: t.receive, qty: num(t.receiveQty) }] : []) } function sums(id) { let done = 0, pending = 0; for (const t of db.trades) { const q = giveItems(t).filter(x => x.stockId === id).reduce((a, x) => a + num(x.qty), 0); if (t.status === '已完成') done += q; if (t.status === '已约定') pending += q } return { done, pending } } function go(id) { ['home', 'stock', 'trades', 'query', 'report'].forEach(x => $(x).classList.toggle('hidden', x !== id)); document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.dataset.tab === id)); window.scrollTo(0, 0); render() } function render() { let total = 0, done = 0, pending = 0; db.stocks.forEach(s => { const a = sums(s.id); total += num(s.qty); done += a.done; pending += a.pending }); $('sTotal').textContent = total; $('sDone').textContent = done; $('sPending').textContent = pending; $('sAvailable').textContent = total - done - pending; const upcoming = db.trades.filter(t => t.status === '已约定'); $('homeList').className = upcoming.length ? '' : 'empty'; $('homeList').innerHTML = upcoming.length ? upcoming.slice(0, 6).map(t => `<div class="item"><div class="main"><strong>${esc(t.person)}</strong><div class="muted">${giveItems(t).map(x => `${esc(db.stocks.find(s => s.id === x.stockId)?.name || '已删除物料')} × ${num(x.qty)}`).join('、')}</div></div><span class="pill">待交换</span></div>`).join('') : '目前没有待交换记录 🌷'; const sq = $('stockSearch').value.trim().toLowerCase(); $('stockList').innerHTML = db.stocks.filter(s => s.name.toLowerCase().includes(sq)).map(s => { const a = sums(s.id); return `<div class="item"><div>${s.photo ? `<img class="thumb" src="${s.photo}" alt="">` : '<div class="thumb">🎁</div>'}</div><div class="main"><strong>${esc(s.name)}</strong><div class="muted">初始 ${num(s.qty)} · 已交换 ${a.done} · 已约定 ${a.pending}</div><div class="chip">可交换 ${num(s.qty) - a.done - a.pending}</div></div><button class="icon" onclick="openStock('${s.id}')" aria-label="编辑">✎</button></div>` }).join('') || '<div class="empty">还没有物料，点击「新增」开始 🌸</div>'; const tq = $('tradeSearch').value.trim().toLowerCase(); $('tradeList').innerHTML = db.trades.filter(t => (t.person + ' ' + t.account + ' ' + (t.igLink || '') + ' ' + (t.phone || '') + ' ' + (t.method || '') + ' ' + (db.stocks.find(s => s.id === t.stockId)?.name || '')).toLowerCase().includes(tq)).slice().reverse().map(t => `<div class="item"><div class="main"><strong>${esc(t.person)} <span class="pill">${esc(t.status)}</span></strong><div class="muted">${esc(t.account || '未填写 IG')} · ${t.igLink && safeWebHref(t.igLink) ? `<a href="${esc(safeWebHref(t.igLink))}" target="_blank" rel="noopener noreferrer">IG 链接</a> · ` : ''}${t.phone ? `电话 <a href="${waHref(t.phone)}" target="_blank" rel="noopener">${esc(t.phone)}</a>` : '电话 未填写'} · 微信 ${esc(t.wechat || '未填写')} · ${esc(t.method || '邮寄')} · ${esc(t.date)}</div><div class="qty">送出：${giveItems(t).map(x => `${esc(db.stocks.find(s => s.id === x.stockId)?.name || '已删除物料')} × ${num(x.qty)}`).join('、')}</div><div class="muted">收到：${receiveItems(t).map(x => `${esc(x.name)} × ${num(x.qty)}`).join('、') || '未填写'}</div></div><button class="icon" onclick="openTrade('${t.id}')" aria-label="编辑">✎</button></div>`).join('') || '<div class="empty">还没有交换记录 💌</div>'; $('reportList').innerHTML = db.stocks.map(s => { const a = sums(s.id); return `<div class="panel"><strong>${esc(s.name)}</strong><div class="summary" style="margin-top:9px">初始：${num(s.qty)}　｜　已交换：${a.done}<br>已约定：${a.pending}　｜　实际剩余：${num(s.qty) - a.done}<br><b>可交换：${num(s.qty) - a.done - a.pending}</b></div></div>` }).join('') || '<div class="empty">添加物料后自动生成库存报表</div>'; let received = {}; db.trades.filter(t => t.status === '已完成').forEach(t => receiveItems(t).forEach(x => { if (x.name) received[x.name] = (received[x.name] || 0) + num(x.qty) })); $('receivedList').innerHTML = Object.entries(received).map(([name, q]) => `<div class="item"><div class="main"><strong>${esc(name)}</strong></div><span class="pill">${q} 份</span></div>`).join('') || '<p>尚无已完成的收取记录</p>'; renderQuery() } function renderQuery() { const state = $('queryStatus').value, from = $('queryDateFrom').value, to = $('queryDateTo').value; const matches = db.trades.filter(t => (!state || t.status === state) && (!from || String(t.date || '') >= from) && (!to || String(t.date || '') <= to)).slice().sort((a, b) => String(b.date || '').localeCompare(String(a.date || ''))); $('queryCount').textContent = `找到 ${matches.length} 笔交换记录`; $('queryTradeList').innerHTML = matches.map(t => `<div class="item"><div class="main"><strong>${esc(t.person || '未填写对象')} <span class="pill">${esc(t.status || '')}</span></strong><div class="muted">日期：${esc(t.date || '未填写')} · ${esc(t.account || '未填写 IG')}${t.igLink && safeWebHref(t.igLink) ? ` · <a href="${esc(safeWebHref(t.igLink))}" target="_blank" rel="noopener noreferrer">IG 链接</a>` : ''}</div><div class="qty">送出：${giveItems(t).map(x => `${esc(db.stocks.find(s => s.id === x.stockId)?.name || '已删除物料')} × ${num(x.qty)}`).join('、') || '无'}</div><div class="muted">收到：${receiveItems(t).map(x => `${esc(x.name)} × ${num(x.qty)}`).join('、') || '未填写'}</div></div><button class="icon" onclick="openTrade('${esc(t.id)}')" aria-label="编辑">✎</button></div>`).join('') || '<div class="empty">没有符合筛选条件的交换记录</div>' } function clearQueryFilters() { $('queryStatus').value = ''; $('queryDateFrom').value = ''; $('queryDateTo').value = ''; renderQuery() } function closeStock() { $('stockForm').classList.add('hidden') } function openStock(id = '') { go('stock'); const s = db.stocks.find(s => s.id === id); $('stockForm').classList.remove('hidden'); $('stockFormTitle').textContent = s ? '编辑物料' : '新增物料'; $('stockId').value = id; $('stockName').value = s?.name || ''; $('stockQty').value = s?.qty ?? ''; $('stockNote').value = s?.note || ''; $('stockPhoto').value = ''; photoData = s?.photo || ''; $('preview').src = photoData; $('preview').style.display = photoData ? 'block' : 'none'; $('deleteStock').classList.toggle('hidden', !s); $('stockForm').scrollIntoView({ behavior: 'smooth', block: 'start' }) } function loadPhoto(input) { const f = input.files[0]; if (!f) return; const reader = new FileReader(); reader.onload = () => { const img = new Image(); img.onload = () => { const c = document.createElement('canvas'); const scale = Math.min(1, 700 / Math.max(img.width, img.height)); c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); photoData = c.toDataURL('image/jpeg', .7); $('preview').src = photoData; $('preview').style.display = 'block' }; img.src = reader.result }; reader.readAsDataURL(f) } function saveStock() { const id = $('stockId').value, name = $('stockName').value.trim(), qty = $('stockQty').value; if (!name || qty === '' || !Number.isInteger(Number(qty)) || Number(qty) < 0) return alert('请填写名称和有效的初始数量'); const obj = { id: id || uid(), name, qty: num(qty), photo: photoData, note: $('stockNote').value }; const idx = db.stocks.findIndex(s => s.id === id); if (idx < 0) db.stocks.push(obj); else db.stocks[idx] = obj; if (persist()) closeStock() } function deleteStock() { const id = $('stockId').value; if (db.trades.some(t => t.stockId === id)) return alert('这款物料已有交换记录，请先删除关联交换记录'); if (confirm('确定删除这款物料吗？')) { db.stocks = db.stocks.filter(s => s.id !== id); persist(); closeStock() } } function closeTrade() { $('tradeForm').classList.add('hidden') } function openTrade(id = '') { if (!db.stocks.length) return alert('请先新增至少一种物料'); go('trades'); const t = db.trades.find(t => t.id === id); $('tradeForm').classList.remove('hidden'); $('tradeFormTitle').textContent = t ? '编辑交换' : '新增交换'; $('tradeId').value = id; $('tradePerson').value = t?.person || ''; $('tradeAccount').value = t?.account || ''; $('tradeIgLink').value = t?.igLink || ''; $('tradePhone').value = t?.phone || ''; $('tradeWechat').value = t?.wechat || ''; $('tradeMethod').value = t?.method || '邮寄'; $('tradeStatus').value = t?.status || '已约定'; $('tradeChecked').checked = (t?.status === '已完成'); $('tradeDate').value = t?.date || new Date().toLocaleDateString('en-CA'); $('tradeNote').value = t?.note || ''; renderTradeRows('give', t ? giveItems(t) : [{ stockId: db.stocks[0].id, qty: 1 }]); renderTradeRows('get', t ? receiveItems(t) : []); $('deleteTrade').classList.toggle('hidden', !t); $('tradeForm').scrollIntoView({ behavior: 'smooth', block: 'start' }) } function renderTradeRows(type, items) { const box = $(type === 'give' ? 'giveRows' : 'getRows'); box.innerHTML = (items.length ? items : [type === 'give' ? { stockId: db.stocks[0]?.id, qty: 1 } : { name: '', qty: 1 }]).map((x, i) => `<div class="row tradeRow" style="margin:8px 0">${type === 'give' ? `<select class="rowMaterial">${db.stocks.map(s => `<option value="${esc(s.id)}" ${s.id === x.stockId ? 'selected' : ''}>${esc(s.name)}</option>`).join('')}</select>` : `<input class="rowMaterial" placeholder="物料名称" value="${esc(x.name || '')}">`}<input class="rowQty" type="number" min="1" step="1" value="${num(x.qty) || 1}" oninput="updateTotals()"><button type="button" class="icon" onclick="this.parentElement.remove();updateTotals()">×</button></div>`).join(''); updateTotals() } function addTradeRow(type) { const box = $(type === 'give' ? 'giveRows' : 'getRows'), row = type === 'give' ? { stockId: db.stocks[0]?.id, qty: 1 } : { name: '', qty: 1 }; box.insertAdjacentHTML('beforeend', renderTradeRowHTML(type, row)); updateTotals() } function renderTradeRowHTML(type, x) { return `<div class="row tradeRow" style="margin:8px 0">${type === 'give' ? `<select class="rowMaterial">${db.stocks.map(s => `<option value="${esc(s.id)}" ${s.id === x.stockId ? 'selected' : ''}>${esc(s.name)}</option>`).join('')}</select>` : `<input class="rowMaterial" placeholder="物料名称" value="${esc(x.name || '')}">`}<input class="rowQty" type="number" min="1" step="1" value="${num(x.qty) || 1}" oninput="updateTotals()"><button type="button" class="icon" onclick="this.parentElement.remove();updateTotals()">×</button></div>` } function updateTotals() { for (const [type, id] of [['give', 'giveTotal'], ['get', 'getTotal']]) { const box = $(type === 'give' ? 'giveRows' : 'getRows'); $(id).textContent = [...box.querySelectorAll('.rowQty')].reduce((a, x) => a + (Number(x.value) || 0), 0) } } function readTradeRows(type) { const box = $(type === 'give' ? 'giveRows' : 'getRows'); return [...box.querySelectorAll('.tradeRow')].map(r => ({ value: r.querySelector('.rowMaterial').value.trim(), qty: Number(r.querySelector('.rowQty').value) })).filter(x => x.value && Number.isInteger(x.qty) && x.qty > 0).map(x => type === 'give' ? { stockId: x.value, qty: x.qty } : { name: x.value, qty: x.qty }) } function toggleTradeChecked() { $('tradeStatus').value = $('tradeChecked').checked ? '已完成' : '已约定' } function syncTradeChecked() { $('tradeChecked').checked = $('tradeStatus').value === '已完成' } function saveTrade() { const id = $('tradeId').value, person = $('tradePerson').value.trim(), give = readTradeRows('give'), receive = readTradeRows('get'); if (!person || !give.length) return alert('请填写交换对象，并至少添加一项送出物料'); const obj = { id: id || uid(), person, account: $('tradeAccount').value.trim(), igLink: $('tradeIgLink').value.trim(), phone: $('tradePhone').value.trim(), wechat: $('tradeWechat').value.trim(), method: $('tradeMethod').value, giveItems: give, receiveItems: receive, status: $('tradeStatus').value, date: $('tradeDate').value, note: $('tradeNote').value }; const original = db.trades.find(t => t.id === id), idx = db.trades.findIndex(t => t.id === id); if (idx < 0) db.trades.push(obj); else db.trades[idx] = obj; const over = give.some(x => { const stock = db.stocks.find(s => s.id === x.stockId), a = sums(x.stockId); return stock && a.done + a.pending > num(stock.qty) }); if (over && !confirm('这会让「可交换数量」变成负数，仍然保存吗？')) { if (idx < 0) db.trades.pop(); else db.trades[idx] = original; return } if (persist()) closeTrade() } function deleteTrade() { if (confirm('确定删除这笔交换记录吗？')) { db.trades = db.trades.filter(t => t.id !== $('tradeId').value); persist(); closeTrade() } } function download(name, content, type) { const url = URL.createObjectURL(new Blob([content], { type })); const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000) } function exportJSON() { download('物料互换备份_' + new Date().toISOString().slice(0, 10) + '.json', JSON.stringify(db, null, 2), 'application/json') } function csvRow(a) { return a.map(v => '"' + String(v ?? '').replace(/"/g, '""') + '"').join(',') } function exportCSV() { const rows = [['类型', '名称/交换对象', 'IG', '电话号码', '微信号', '交换方式', '物料', '初始数量', '送出数量', '收到物料', '收到数量', '状态', '日期', '备注']]; db.stocks.forEach(s => rows.push(['库存', s.name, '', '', '', '', '', s.qty, '', '', '', '', '', s.note])); db.trades.forEach(t => rows.push(['交换', t.person, t.account, t.phone || '', t.wechat || '', t.method || '邮寄', giveItems(t).map(x => `${db.stocks.find(s => s.id === x.stockId)?.name || '已删除物料'} × ${x.qty}`).join('、'), giveItems(t).reduce((a, x) => a + num(x.qty), 0), receiveItems(t).map(x => `${x.name} × ${x.qty}`).join('、'), receiveItems(t).reduce((a, x) => a + num(x.qty), 0), t.status, t.date, t.note])); download('物料互换记录.csv', '\ufeff' + rows.map(csvRow).join('\r\n'), 'text/csv;charset=utf-8') } function importJSON(input) { const f = input.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => { try { const d = JSON.parse(r.result); if (!Array.isArray(d.stocks) || !Array.isArray(d.trades)) throw Error('bad'); if (!confirm('恢复备份将覆盖当前全部数据，确定继续？')) return; db = d; persist(); alert('恢复成功') } catch (e) { alert('备份文件格式不正确') } finally { input.value = '' } }; r.readAsText(f) } function clearAll() { if (confirm('确定清空所有物料与交换记录吗？此操作无法撤销。') && confirm('请确认已经备份，真的要清空吗？')) { db = { stocks: [], trades: [] }; persist() } } render();</script>
+    <script type="module" src="./app.js"></script>
+</body>
+
+</html>
