@@ -27,7 +27,10 @@ if (!configured) {
     let dataRef;
 
     async function saveData(data) {
-      if (!dataRef) throw new Error('Firebase user is not ready');
+      if (!dataRef) {
+        status.textContent = '本机缓存已保存；登录 Google 账号后即可同步到其他设备。';
+        return;
+      }
       status.textContent = '正在同步到 Firebase…';
       await dbSdk.setDoc(dataRef, {
         stocks: data.stocks,
@@ -75,20 +78,28 @@ if (!configured) {
         status.textContent = 'Google 账号已连接；其他设备请使用同一账号登录。';
       } catch (error) {
         console.error('Google account connection failed:', error);
-        status.textContent = `账号连接失败（${error?.code || error?.message || '未知错误'}）。请检查 Firebase Google 登录设置。`;
+        status.textContent = error?.code === 'auth/popup-blocked'
+          ? '浏览器拦截了 Google 登录弹窗；请允许此网站的弹窗后重试。'
+          : `账号连接失败（${error?.code || error?.message || '未知错误'}）。请检查 Firebase Google 登录设置。`;
       } finally {
         connectButton.disabled = false;
       }
     };
 
-    const user = auth.currentUser || (await authSdk.signInAnonymously(auth)).user;
-    await loadUserData(user);
-    status.textContent = user.isAnonymous
-      ? '已连接 Firebase。绑定 Google 账号即可在其他设备使用同一数据。'
-      : '已连接 Firebase 与 Google 账号';
+    // Restore a saved session, but do not create anonymous accounts.
+    await auth.authStateReady();
+    const user = auth.currentUser;
+    if (user) {
+      await loadUserData(user);
+      status.textContent = user.isAnonymous
+        ? '已连接 Firebase。登录 Google 账号即可在其他设备使用同一数据。'
+        : '已连接 Firebase 与 Google 账号';
+    } else {
+      status.textContent = '尚未登录 Google 账号；数据暂存在本机。登录后会同步到 Firebase。';
+    }
   } catch (error) {
     console.error('Firebase initialization failed:', error);
     const detail = error?.code || error?.message || '未知错误';
-    status.textContent = `Firebase 连接失败（${detail}）；数据仍保存在本机缓存。`;
+    status.textContent = `Firebase 连接失败（${detail}）；数据仍保存在本机缓存。请检查 Firebase 配置和网络。`;
   }
 }

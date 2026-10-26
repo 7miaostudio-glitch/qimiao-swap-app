@@ -330,7 +330,7 @@
         <h1>QIMIAO STUDIO 物料交换</h1>
         <p>每一次交换，都是一份小小的快乐 ✨</p>
         <p id="syncStatus" role="status">正在连接 Firebase…</p>
-        <button id="connectGoogle" class="btn alt" type="button" onclick="connectGoogle()">绑定 Google 账号，跨设备同步</button>
+        <button id="connectGoogle" class="btn alt" type="button" onclick="connectGoogle()">登录/绑定 Google 账号，跨设备同步</button>
     </header>
     <main class="wrap">
         <section id="home">
@@ -427,7 +427,7 @@
             </div>
             <div class="panel">
                 <h2>数据备份与恢复</h2>
-                <p class="note">数据会同步到 Firebase；本机也保留一份缓存。首次使用请配置 Firebase、启用匿名身份验证并创建 Firestore。绑定 Google 账号后，可在其他设备登录同一账号同步。照片随记录保存在 Firestore 文档中。</p>
+                <p class="note">数据会同步到 Firebase；本机也保留一份缓存。首次使用请配置 Firebase、启用 Google 登录并创建 Firestore。登录同一 Google 账号即可在各设备同步。照片随记录保存在 Firestore 文档中。</p>
                 <div class="row"><button class="btn" onclick="exportJSON()">⬇ 备份 JSON</button><button class="btn alt"
                         onclick="exportCSV()">⬇ 导出 CSV</button></div><label>恢复 JSON 备份（会替换当前所有记录）</label><input
                     type="file" accept=".json,application/json" onchange="importJSON(this)">
