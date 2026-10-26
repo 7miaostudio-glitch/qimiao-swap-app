@@ -1,0 +1,314 @@
+:root {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+            color: #35556e;
+            background: #f3f9ff
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            padding: env(safe-area-inset-top) 0 calc(85px + env(safe-area-inset-bottom));
+            background: linear-gradient(160deg, #e9f5ff, #fff9df);
+            min-height: 100vh
+        }
+
+        header {
+            padding: 26px 20px 12px;
+            max-width: 760px;
+            margin: auto
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #4c91bd
+        }
+
+        h1 {
+            font-size: 27px;
+            margin: 7px 0 4px
+        }
+
+        h2 {
+            font-size: 19px;
+            margin: 4px 0 14px
+        }
+
+        p {
+            font-size: 13px;
+            color: #8499a7
+        }
+
+        .wrap {
+            max-width: 760px;
+            margin: auto;
+            padding: 0 16px
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px
+        }
+
+        .stat,
+        .panel,
+        .item {
+            background: #fff;
+            border: 1px solid #d7eaf6;
+            border-radius: 19px;
+            padding: 15px;
+            box-shadow: 0 4px 15px #a9c9dd18
+        }
+
+        .stat small {
+            display: block;
+            color: #86a3b6;
+            font-size: 12px
+        }
+
+        .stat b {
+            font-size: 27px;
+            display: block;
+            margin-top: 8px;
+            color: #438cbb
+        }
+
+        .panel {
+            margin-top: 15px
+        }
+
+        .bar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 13px;
+            padding: 11px 14px;
+            background: #69b1dd;
+            color: #fff;
+            font-weight: 650;
+            font-size: 14px;
+            cursor: pointer
+        }
+
+        .btn.alt {
+            background: #fff1a8;
+            color: #705b20
+        }
+
+        .btn.danger {
+            background: #ffe6e8;
+            color: #b95368
+        }
+
+        .btn:active {
+            opacity: .7
+        }
+
+        .search,
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid #d3e6f2;
+            border-radius: 12px;
+            padding: 12px;
+            background: #fcfdff;
+            color: #4b6070;
+            font-size: 16px
+        }
+        label {
+            display: block;
+            font-size: 13px;
+            color: #71899a;
+            margin: 12px 0 6px
+        }
+
+        textarea {
+            min-height: 75px;
+            resize: vertical
+        }
+
+        .item {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin: 10px 0
+        }
+
+        .thumb {
+            width: 58px;
+            height: 58px;
+            flex-shrink: 0;
+            border-radius: 14px;
+            object-fit: cover;
+            background: #eaf5fb;
+            display: grid;
+            place-items: center;
+            font-size: 26px
+        }
+
+        .item .main {
+            flex: 1;
+            min-width: 0
+        }
+
+        .item strong {
+            display: block;
+            font-size: 15px;
+            overflow-wrap: anywhere
+        }
+
+        .muted {
+            color: #8197a6;
+            font-size: 12px;
+            margin-top: 5px
+        }
+
+        .pill {
+            font-size: 11px;
+            background: #fff6c9;
+            border-radius: 20px;
+            padding: 5px 9px;
+            color: #8b7428;
+            white-space: nowrap
+        }
+
+        .tabs {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            background: #fffefef5;
+            border-top: 1px solid #dcebf5;
+            padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+            z-index: 3
+        }
+
+        .tabs-inner {
+            display: flex;
+            width: min(100%, 760px)
+        }
+
+        .tab {
+            width: 20%;
+            border: 0;
+            background: none;
+            color: #93adbd;
+            font-size: 11px;
+            padding: 4px 0
+        }
+
+        .tab span {
+            display: block;
+            font-size: 21px;
+            margin-bottom: 3px
+        }
+
+        .tab.active {
+            color: #3e83b1;
+            font-weight: 700
+        }
+
+        .hidden {
+            display: none !important
+        }
+
+        .empty {
+            text-align: center;
+            padding: 36px 12px;
+            color: #91a8b7
+        }
+
+        .row {
+            display: flex;
+            gap: 9px
+        }
+
+        .row>* {
+            flex: 1;
+            min-width: 0
+        }
+
+        .photoPreview {
+            width: 96px;
+            height: 96px;
+            object-fit: cover;
+            border-radius: 16px;
+            display: none;
+            margin-top: 9px
+        }
+
+        .summary {
+            padding: 12px;
+            border-radius: 12px;
+            background: #fff9df;
+            font-size: 13px;
+            line-height: 1.8
+        }
+
+        .note {
+            font-size: 12px;
+            line-height: 1.6
+        }
+
+        .sectionTitle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0 9px
+        }
+
+        button.icon {
+            border: 0;
+            background: none;
+            font-size: 18px;
+            color: #6399b9;
+            padding: 8px
+        }
+
+        .qty {
+            font-size: 13px;
+            color: #718899
+        }
+
+        .chip {
+            background: #e8f4ff;
+            border-radius: 10px;
+            padding: 7px;
+            font-size: 12px;
+            display: inline-block;
+            margin-top: 5px
+        }
+
+        input[type=file] {
+            font-size: 13px
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #dfeef6;
+            margin: 18px 0
+        }
+
+        .checkrow {
+            display: flex;
+            align-items: center;
+            gap: 9px
+        }
+
+        .checkrow input {
+            width: 20px;
+            height: 20px;
+            accent-color: #4b9dcc
+        }

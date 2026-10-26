@@ -3,7 +3,7 @@
 1. Create a Firebase project and register a Web app.
 2. In **Authentication → Sign-in method**, enable **Google**. Anonymous sign-in is optional and not required by the current app. Set the project support email for Google sign-in if prompted.
 3. Create a **Cloud Firestore** database.
-4. Copy the Firebase Web app configuration into `app.js` (`firebaseConfig`).
+4. Copy the Firebase Web app configuration into `js/firebase.js` (`firebaseConfig`).
 5. Publish `firestore.rules` in **Firestore Database → Rules**.
 6. Serve this folder from a local web server or deploy it to Firebase Hosting. ES module imports will not run when opening `index.html` as a `file://` URL.
 
