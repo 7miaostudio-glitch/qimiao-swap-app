@@ -7,11 +7,12 @@ const firebaseConfig = {
 };
 
 const status = document.getElementById('syncStatus');
+const connectButton = document.getElementById('connectGoogle');
 const configured = firebaseConfig.apiKey !== 'YOUR_API_KEY' &&
   firebaseConfig.projectId !== 'YOUR_PROJECT_ID' && firebaseConfig.appId !== 'YOUR_APP_ID';
 
 if (!configured) {
-  status.textContent = '尚未配置 Firebase：请编辑 app.js 填入 Firebase Web 配置。当前数据保存在本机。';
+  status.textContent = '尚未配置 Firebase：请编辑 app.js 填入 Firebase 配置。当前数据保存在本机。';
 } else {
   try {
     const [appSdk, authSdk, dbSdk] = await Promise.all([
@@ -22,33 +23,72 @@ if (!configured) {
     const app = appSdk.initializeApp(firebaseConfig);
     const auth = authSdk.getAuth(app);
     const firestore = dbSdk.getFirestore(app);
-    const credential = await authSdk.signInAnonymously(auth);
-    const dataRef = dbSdk.doc(firestore, 'users', credential.user.uid, 'appData', 'main');
+    const googleProvider = new authSdk.GoogleAuthProvider();
+    let dataRef;
 
-    window.firebaseStore = {
-      async save(data) {
-        status.textContent = '正在同步到 Firebase…';
-        await dbSdk.setDoc(dataRef, { stocks: data.stocks, trades: data.trades, updatedAt: dbSdk.serverTimestamp() });
-        status.textContent = '已同步到 Firebase';
+    async function saveData(data) {
+      if (!dataRef) throw new Error('Firebase user is not ready');
+      status.textContent = '正在同步到 Firebase…';
+      await dbSdk.setDoc(dataRef, {
+        stocks: data.stocks,
+        trades: data.trades,
+        updatedAt: dbSdk.serverTimestamp(),
+      });
+      status.textContent = '已同步到 Firebase';
+    }
+
+    async function loadUserData(user) {
+      dataRef = dbSdk.doc(firestore, 'users', user.uid, 'appData', 'main');
+      const snapshot = await dbSdk.getDoc(dataRef);
+      if (snapshot.exists()) {
+        const remote = snapshot.data();
+        if (Array.isArray(remote.stocks) && Array.isArray(remote.trades)) {
+          window.setAppDb({ stocks: remote.stocks, trades: remote.trades });
+          localStorage.setItem('qimiao_swap_v1', JSON.stringify(window.getAppDb()));
+        }
+      } else {
+        // First login for this account: upload this browser's current local data.
+        await saveData(window.getAppDb());
+      }
+      window.render();
+    }
+
+    window.firebaseStore = { save: saveData };
+    window.connectGoogle = async function () {
+      connectButton.disabled = true;
+      status.textContent = '正在连接 Google 账号…';
+      try {
+        let user;
+        if (auth.currentUser?.isAnonymous) {
+          try {
+            const linked = await authSdk.linkWithPopup(auth.currentUser, googleProvider);
+            user = linked.user;
+          } catch (error) {
+            // If this Google account is already linked on another device, sign into it there.
+            if (!['auth/credential-already-in-use', 'auth/email-already-in-use', 'auth/provider-already-linked'].includes(error?.code)) throw error;
+            user = (await authSdk.signInWithPopup(auth, googleProvider)).user;
+          }
+        } else {
+          user = (await authSdk.signInWithPopup(auth, googleProvider)).user;
+        }
+        await loadUserData(user);
+        status.textContent = 'Google 账号已连接；其他设备请使用同一账号登录。';
+      } catch (error) {
+        console.error('Google account connection failed:', error);
+        status.textContent = `账号连接失败（${error?.code || error?.message || '未知错误'}）。请检查 Firebase Google 登录设置。`;
+      } finally {
+        connectButton.disabled = false;
       }
     };
 
-    const snapshot = await dbSdk.getDoc(dataRef);
-    if (snapshot.exists()) {
-      const remote = snapshot.data();
-      if (Array.isArray(remote.stocks) && Array.isArray(remote.trades)) {
-        window.setAppDb({ stocks: remote.stocks, trades: remote.trades });
-        localStorage.setItem('qimiao_swap_v1', JSON.stringify(window.getAppDb()));
-      }
-    } else {
-      // First login: upload this browser's existing local data.
-      await window.firebaseStore.save(window.getAppDb());
-    }
-    window.render();
-    status.textContent = '已连接 Firebase 并同步';
+    const user = auth.currentUser || (await authSdk.signInAnonymously(auth)).user;
+    await loadUserData(user);
+    status.textContent = user.isAnonymous
+      ? '已连接 Firebase。绑定 Google 账号即可在其他设备使用同一数据。'
+      : '已连接 Firebase 与 Google 账号';
   } catch (error) {
     console.error('Firebase initialization failed:', error);
     const detail = error?.code || error?.message || '未知错误';
-    status.textContent = `Firebase 连接失败（${detail}）；数据仍保存在本机。`; 
+    status.textContent = `Firebase 连接失败（${detail}）；数据仍保存在本机缓存。`;
   }
 }
