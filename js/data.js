@@ -37,6 +37,10 @@ window.setAppDb = value => {
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const num = x => Math.max(0, Math.floor(Number(x) || 0));
+function formatDate(value) {
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value || ''));
+    return match ? `${match[3]}/${match[2]}/${match[1]}` : String(value || '');
+}
 
 function folderStocks() { return db.stocks.filter(stock => stock.folderId === activeFolderId) }
 function folderTrades() { return db.trades.filter(trade => trade.folderId === activeFolderId) }

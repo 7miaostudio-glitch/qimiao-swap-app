@@ -145,6 +145,10 @@
             margin-top: 15px
         }
 
+        .quickStart {
+            margin-bottom: 18px
+        }
+
         .bar {
             display: flex;
             gap: 8px;
