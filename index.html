@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-    <meta name="theme-color" content="#dceef9">
+    <meta name="theme-color" content="#231815">
     <title>QIMIAO STUDIO FREEBIES EXCHANGE</title>
     <link rel="stylesheet" href="./styles.css">
 </head>
@@ -16,13 +16,19 @@
         <p>每一次交换，都是一份小小的快乐 ✨</p>
         <p id="syncStatus" role="status">正在连接 Firebase…</p>
         <button id="connectGoogle" class="btn alt" type="button" onclick="connectGoogle()">登录/绑定 Google 账号，跨设备同步</button>
+        <div class="folderBar">
+            <label for="folderSelect">📁 当前文件夹</label>
+            <select id="folderSelect" onchange="changeFolder(this.value)"></select>
+            <button class="btn alt" type="button" onclick="renameFolder()">重命名</button>
+            <button class="btn" type="button" onclick="addFolder()">＋ 新建文件夹</button>
+        </div>
     </header>
     <main class="wrap">
         <section id="home">
             <div class="stats">
                 <div class="stat"><small>📦 当前库存总数</small><b id="sTotal">0</b></div>
                 <div class="stat"><small>💌 已交换送出</small><b id="sDone">0</b></div>
-                <div class="stat"><small>⏳ 已约定待交换</small><b id="sPending">0</b></div>
+                <div class="stat"><small>⏳ 待完成交换</small><b id="sPending">0</b></div>
                 <div class="stat"><small>🎀 可交换数量</small><b id="sAvailable">0</b></div>
             </div>
             <div class="panel">
@@ -80,7 +86,7 @@
                     <button type="button" class="btn alt" onclick="addTradeRow('get')">＋ 添加收到物料</button>
                     <div class="summary">收到总数：<b id="getTotal">0</b></div>
                     <label class="checkrow"><input id="tradeChecked" type="checkbox" onchange="toggleTradeChecked()"> 已互换</label>
-                    <label>其他状态</label><select id="tradeStatus" onchange="syncTradeChecked()"><option value="已约定">已约定</option><option value="已完成">已完成</option><option value="已取消">已取消</option></select>
+                    <label>其他状态</label><select id="tradeStatus" onchange="syncTradeChecked()"><option value="已约定">已约定</option><option value="已确认">已确认</option><option value="已打包">已打包</option><option value="已邮寄">已邮寄</option><option value="已完成">已完成</option><option value="已取消">已取消</option></select>
                     <label>交换日期</label><input id="tradeDate" type="date">
                     <label>备注 / 见面地点</label><textarea id="tradeNote" placeholder="例：演唱会入口 A"></textarea>
                 </fieldset>
@@ -145,6 +151,9 @@
                 <select id="queryStatus" onchange="renderQuery()">
                     <option value="">全部状态</option>
                     <option value="已约定">已约定</option>
+                    <option value="已确认">已确认</option>
+                    <option value="已打包">已打包</option>
+                    <option value="已邮寄">已邮寄</option>
                     <option value="已完成">已完成</option>
                     <option value="已取消">已取消</option>
                 </select>
@@ -157,12 +166,17 @@
             <div id="queryCount" class="muted"></div>
             <div id="queryTradeList"></div>
         </section>
+        <section id="mailing" class="hidden">
+            <div class="sectionTitle"><h2>邮寄交换 📮</h2></div>
+            <p class="note">显示所有交换方式为邮寄的记录，包括不同状态。</p>
+            <div id="mailingTradeList"></div>
+        </section>
         <section id="report" class="hidden">
             <h2>自动统计 📊</h2>
-            <div id="reportList"></div>
+            <div id="reportList" class="reportGrid"></div>
             <div class="panel">
                 <h2>收到的物料</h2>
-                <div id="receivedList"></div>
+                <div id="receivedList" class="reportGrid"></div>
             </div>
             <div class="panel">
                 <h2>数据备份与恢复</h2>
@@ -178,7 +192,7 @@
         <div class="tabs-inner"><button class="tab active" data-tab="home"
                 onclick="go('home')"><span>🏠</span>首页</button><button class="tab" data-tab="stock"
                 onclick="go('stock')"><span>🎀</span>物料</button><button class="tab" data-tab="trades"
-                onclick="go('trades')"><span>💌</span>交换</button><button class="tab" data-tab="orders" onclick="go('orders')"><span>📥</span>订单</button><button class="tab" data-tab="query" onclick="go('query')"><span>🔎</span>查询</button><button class="tab" data-tab="report"
+                onclick="go('trades')"><span>💌</span>交换</button><button class="tab" data-tab="orders" onclick="go('orders')"><span>📥</span>订单</button><button class="tab" data-tab="query" onclick="go('query')"><span>🔎</span>查询</button><button class="tab" data-tab="mailing" onclick="go('mailing')"><span>📮</span>邮寄</button><button class="tab" data-tab="report"
                 onclick="go('report')"><span>📊</span>统计</button></div>
     </nav>
     <script src="./js/data.js"></script>

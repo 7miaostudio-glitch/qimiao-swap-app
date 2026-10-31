@@ -36,6 +36,7 @@ if (!configured) {
         stocks: data.stocks,
         trades: data.trades,
         orders: data.orders || [],
+        folders: data.folders || [],
         updatedAt: dbSdk.serverTimestamp(),
       });
       status.textContent = '已同步到 Firebase';
@@ -47,7 +48,7 @@ if (!configured) {
       if (snapshot.exists()) {
         const remote = snapshot.data();
         if (Array.isArray(remote.stocks) && Array.isArray(remote.trades)) {
-          window.setAppDb({ stocks: remote.stocks, trades: remote.trades, orders: Array.isArray(remote.orders) ? remote.orders : [] });
+          window.setAppDb({ stocks: remote.stocks, trades: remote.trades, orders: Array.isArray(remote.orders) ? remote.orders : [], folders: Array.isArray(remote.folders) ? remote.folders : [] });
           localStorage.setItem('qimiao_swap_v1', JSON.stringify(window.getAppDb()));
         }
       } else {
