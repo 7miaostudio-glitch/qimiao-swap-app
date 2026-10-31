@@ -2,6 +2,7 @@
 
 const KEY = 'qimiao_swap_v1';
 const FOLDER_KEY = 'qimiao_swap_active_folder_v1';
+const THEME_KEY = 'qimiao_swap_theme';
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 let db = { stocks: [], trades: [], orders: [], folders: [] };
 let photoData = '';
@@ -37,6 +38,24 @@ window.setAppDb = value => {
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const num = x => Math.max(0, Math.floor(Number(x) || 0));
+
+function setTheme(theme) {
+    const selected = theme === 'light' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = selected;
+    localStorage.setItem(THEME_KEY, selected);
+    const toggleLabel = selected === 'dark' ? '切换到原始模式' : '切换到深色模式';
+    $('themeToggle').textContent = selected === 'dark' ? '☀️' : '🌙';
+    $('themeToggle').setAttribute('aria-label', toggleLabel);
+    $('themeToggle').title = toggleLabel;
+    document.querySelector('meta[name="theme-color"]').content = selected === 'dark' ? '#231815' : '#fffdf5';
+}
+
+function toggleTheme() {
+    setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+}
+
+setTheme(localStorage.getItem(THEME_KEY) || 'dark');
+
 function formatDate(value) {
     const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value || ''));
     return match ? `${match[3]}/${match[2]}/${match[1]}` : String(value || '');

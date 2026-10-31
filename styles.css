@@ -11,9 +11,72 @@
             --surface: #32221e;
             --surface-raised: #3c2924;
             --accent: #a5bcd6;
+            --page-background: linear-gradient(160deg, #231815, #4a2e27);
+            --eyebrow-color: #a5bcd6;
+            --panel-shadow: 0 4px 18px #120b0940;
+            --button-bg: #a5bcd6;
+            --button-text: #231815;
+            --button-alt-bg: #4a2e27;
+            --button-alt-text: #f5efc6;
+            --button-danger-bg: #4d0e12;
+            --button-danger-text: #f5efc6;
+            --input-bg: #2b1d1a;
+            --nav-bg: #231815f2;
+            --tab-idle: #c4b39f;
+            --focus-color: #a5bcd6;
+            --summary-bg: #f5efc6;
+            --summary-text: #231815;
+            --chip-text: #dce7f1;
+            --complete-pill-bg: #344b64;
+            --complete-pill-text: #dce7f1;
+            --cancel-pill-bg: #4d0e12;
+            --cancel-pill-text: #f5efc6;
+            --complete-item-bg: #293b50;
+            --complete-item-border: #4a6686;
+            --cancel-item-bg: #321c1c;
+            --cancel-item-border: #6f2b2e;
             font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
             color: var(--chocolate);
             background: var(--cream)
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+            --chocolate: #684f48;
+            --mint: #d6e9ed;
+            --mist: #ccd6d6;
+            --butter: #f9e7c7;
+            --cream: #fffdf5;
+            --ink: #4f433e;
+            --muted: #82766f;
+            --line: #d8e2df;
+            --surface: #fffefa;
+            --surface-raised: #f8fbfa;
+            --accent: #d6e9ed;
+            --page-background: linear-gradient(160deg, #f1f8f7, #f9e7c7);
+            --eyebrow-color: #829c99;
+            --panel-shadow: 0 4px 15px #684f4812;
+            --button-bg: #684f48;
+            --button-text: #fffefa;
+            --button-alt-bg: #d6e9ed;
+            --button-alt-text: #684f48;
+            --button-danger-bg: #ccd6d6;
+            --button-danger-text: #684f48;
+            --input-bg: #fffefa;
+            --nav-bg: #fffdf5f2;
+            --tab-idle: #877b75;
+            --focus-color: #a8cfd1;
+            --summary-bg: #f9e7c7;
+            --summary-text: #4f433e;
+            --chip-text: #4f433e;
+            --complete-pill-bg: #d6e9ed;
+            --complete-pill-text: #39776f;
+            --cancel-pill-bg: #f4d8d2;
+            --cancel-pill-text: #9b4137;
+            --complete-item-bg: #d6e9ed;
+            --complete-item-border: #b8d5d8;
+            --cancel-item-bg: #f4d8d2;
+            --cancel-item-border: #e6bdb5;
         }
 
         * {
@@ -23,14 +86,29 @@
         body {
             margin: 0;
             padding: env(safe-area-inset-top) 0 calc(85px + env(safe-area-inset-bottom));
-            background: linear-gradient(160deg, #231815, #4a2e27);
+            background: var(--page-background);
             min-height: 100vh
         }
 
         header {
+            position: relative;
             padding: 26px 20px 12px;
             max-width: 760px;
             margin: auto
+        }
+
+        .themeToggle {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            width: 42px;
+            height: 42px;
+            margin: 0;
+            padding: 0;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            z-index: 2
         }
 
         .folderBar {
@@ -48,7 +126,7 @@
         .folderBar label {
             grid-column: 1 / -1;
             margin: 0;
-            color: var(--accent)
+            color: var(--chocolate)
         }
 
         .folderBar select,
@@ -63,7 +141,7 @@
         .eyebrow {
             font-size: 11px;
             letter-spacing: 2px;
-            color: #a5bcd6
+            color: var(--eyebrow-color)
         }
 
         h1 {
@@ -125,7 +203,7 @@
             border: 1px solid var(--line);
             border-radius: 19px;
             padding: 15px;
-            box-shadow: 0 4px 18px #120b0940
+            box-shadow: var(--panel-shadow)
         }
 
         .stat small {
@@ -165,21 +243,21 @@
             border: 0;
             border-radius: 13px;
             padding: 11px 14px;
-            background: var(--accent);
-            color: #231815;
+            background: var(--button-bg);
+            color: var(--button-text);
             font-weight: 650;
             font-size: 14px;
             cursor: pointer
         }
 
         .btn.alt {
-            background: var(--butter);
-            color: var(--ink)
+            background: var(--button-alt-bg);
+            color: var(--button-alt-text)
         }
 
         .btn.danger {
-            background: #4d0e12;
-            color: #f5efc6
+            background: var(--button-danger-bg);
+            color: var(--button-danger-text)
         }
 
         .btn:active {
@@ -194,7 +272,7 @@
             border: 1px solid var(--mist);
             border-radius: 12px;
             padding: 12px;
-            background: #2b1d1a;
+            background: var(--input-bg);
             color: var(--ink);
             font-size: 16px
         }
@@ -262,7 +340,7 @@
             right: 0;
             display: flex;
             justify-content: center;
-            background: #231815f2;
+            background: var(--nav-bg);
             border-top: 1px solid var(--mist);
             padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
             z-index: 3
@@ -278,7 +356,7 @@
             margin: 3px;
             border: 0;
             background: none;
-            color: #c4b39f;
+            color: var(--tab-idle);
             font-size: 11px;
             padding: 4px 0
         }
@@ -290,7 +368,7 @@
         }
 
         .tab.active {
-            color: var(--accent);
+            color: var(--chocolate);
             font-weight: 700
         }
 
@@ -326,8 +404,8 @@
         .summary {
             padding: 12px;
             border-radius: 12px;
-            background: #f5efc6;
-            color: #231815;
+            background: var(--summary-bg);
+            color: var(--summary-text);
             font-size: 13px;
             line-height: 1.8
         }
@@ -348,7 +426,7 @@
             border: 0;
             background: none;
             font-size: 18px;
-            color: var(--accent);
+            color: var(--chocolate);
             padding: 8px
         }
 
@@ -359,7 +437,7 @@
 
         .chip {
             background: var(--mint);
-            color: #dce7f1;
+            color: var(--chip-text);
             border-radius: 10px;
             padding: 7px;
             font-size: 12px;
@@ -418,30 +496,30 @@
 input:focus,
 select:focus,
 textarea:focus {
-    outline: 2px solid var(--accent);
-    border-color: var(--accent);
+    outline: 2px solid var(--focus-color);
+    border-color: var(--focus-color);
 }
 
 
 .pill.status-complete {
-    background: #344b64;
-    color: #dce7f1;
+    background: var(--complete-pill-bg);
+    color: var(--complete-pill-text);
 }
 
 .pill.status-cancelled {
-    background: #4d0e12;
-    color: #f5efc6;
+    background: var(--cancel-pill-bg);
+    color: var(--cancel-pill-text);
 }
 
 
 .item.field-complete {
-    background: #293b50;
-    border-color: #4a6686;
+    background: var(--complete-item-bg);
+    border-color: var(--complete-item-border);
 }
 
 .item.field-cancelled {
-    background: #321c1c;
-    border-color: #6f2b2e;
+    background: var(--cancel-item-bg);
+    border-color: var(--cancel-item-border);
 }
 
 
