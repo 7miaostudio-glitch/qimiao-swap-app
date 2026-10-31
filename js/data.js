@@ -50,9 +50,9 @@ function setTheme(theme) {
     document.querySelector('meta[name="theme-color"]').content = selected === 'dark' ? '#231815' : '#fffdf5';
 }
 
-function toggleTheme() {
+window.toggleTheme = function () {
     setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
-}
+};
 
 setTheme(localStorage.getItem(THEME_KEY) || 'dark');
 
