@@ -4,7 +4,7 @@ const KEY = 'qimiao_swap_v1';
 const FOLDER_KEY = 'qimiao_swap_active_folder_v1';
 const THEME_KEY = 'qimiao_swap_theme';
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
-let db = { stocks: [], trades: [], orders: [], folders: [] };
+let db = normalizeDb();
 let photoData = '';
 let activeFolderId = localStorage.getItem(FOLDER_KEY) || '';
 
