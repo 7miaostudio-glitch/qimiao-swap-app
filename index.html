@@ -17,7 +17,7 @@
         <h1>QIMIAO STUDIO 物料交换</h1>
         <p>每一次交换，都是一份小小的快乐 ✨</p>
         <p id="syncStatus" role="status">正在连接 Firebase…</p>
-        <button id="connectGoogle" class="btn alt" type="button" onclick="connectGoogle()">登录/绑定 Google 账号，跨设备同步</button>
+        <button id="connectGoogle" class="btn alt" type="button" onclick="connectGoogle()" disabled>登录/绑定 Google 账号，跨设备同步</button>
         <div class="folderBar">
             <label for="folderSelect">📁 当前文件夹</label>
             <select id="folderSelect" onchange="changeFolder(this.value)"></select>
@@ -197,10 +197,13 @@
                 onclick="go('trades')"><span>💌</span>交换</button><button class="tab" data-tab="orders" onclick="go('orders')"><span>📥</span>订单</button><button class="tab" data-tab="query" onclick="go('query')"><span>🔎</span>查询</button><button class="tab" data-tab="mailing" onclick="go('mailing')"><span>📮</span>邮寄</button><button class="tab" data-tab="report"
                 onclick="go('report')"><span>📊</span>统计</button></div>
     </nav>
-    <script src="./js/data.js?v=20261031-02"></script>
-    <script src="./js/app.js?v=20261031-02"></script>
-    <script src="./js/backup.js?v=20261031-02"></script>
-    <script type="module" src="./js/firebase.js?v=20261031-02"></script>
+    <script>
+        const jsCacheTicks = `${Date.now()}0000`;
+        document.write(`<script src="./js/data.js?v=${jsCacheTicks}"><\/script>`);
+        document.write(`<script src="./js/app.js?v=${jsCacheTicks}"><\/script>`);
+        document.write(`<script src="./js/backup.js?v=${jsCacheTicks}"><\/script>`);
+        document.write(`<script type="module" src="./js/firebase.js?v=${jsCacheTicks}"><\/script>`);
+    </script>
 </body>
 
 </html>

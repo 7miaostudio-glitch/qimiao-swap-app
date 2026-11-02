@@ -8,10 +8,13 @@ const firebaseConfig = {
 
 const status = document.getElementById('syncStatus');
 const connectButton = document.getElementById('connectGoogle');
+const dataApiReady = typeof window.getAppDb === 'function' && typeof window.setAppDb === 'function';
 const configured = firebaseConfig.apiKey !== 'YOUR_API_KEY' &&
   firebaseConfig.projectId !== 'YOUR_PROJECT_ID' && firebaseConfig.appId !== 'YOUR_APP_ID';
 
-if (!configured) {
+if (!dataApiReady) {
+  status.textContent = '数据模块未加载；请刷新页面后重试。';
+} else if (!configured) {
   status.textContent = '尚未配置 Firebase：请编辑 app.js 填入 Firebase 配置。当前数据保存在本机。';
 } else {
   try {
@@ -87,6 +90,7 @@ if (!configured) {
         connectButton.disabled = false;
       }
     };
+    connectButton.disabled = false;
 
     // Restore a saved session, but do not create anonymous accounts.
     await auth.authStateReady();
